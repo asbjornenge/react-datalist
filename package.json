@@ -1,0 +1,24 @@
+{
+  "name": "react-datalist",
+  "version": "0.0.0",
+  "description": "A <datalist> polyfill for reactjs",
+  "main": "react-datalist.jsx",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/asbjornenge/react-datalist.git"
+  },
+  "keywords": [
+    "browser",
+    "datalist",
+    "dom"
+  ],
+  "author": "Asbjorn Enge <asbjorn@hanafjedle.net>",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/asbjornenge/react-datalist/issues"
+  },
+  "homepage": "https://github.com/asbjornenge/react-datalist"
+}
