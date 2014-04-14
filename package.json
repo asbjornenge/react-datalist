@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/asbjornenge/react-datalist/issues"
   },
-  "homepage": "https://github.com/asbjornenge/react-datalist"
+  "homepage": "https://github.com/asbjornenge/react-datalist",
+  "dependencies": {
+    "nanodom": "0.0.3"
+  }
 }
