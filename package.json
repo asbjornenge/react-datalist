@@ -25,5 +25,10 @@
     "envify": "^1.2.1",
     "nanodom": "0.0.3",
     "react": "^0.10.0"
+  },
+  "devDependencies": {
+    "jsdom": "^0.10.5",
+    "mocha": "^1.18.2",
+    "node-jsx": "^0.10.0"
   }
 }
