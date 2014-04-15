@@ -4,7 +4,8 @@
   "description": "A <datalist> polyfill for reactjs",
   "main": "react-datalist.jsx",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --ui bdd",
+    "localtest": "mocha -R nyan --check-leaks -w test/local"
   },
   "repository": {
     "type": "git",

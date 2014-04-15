@@ -39,13 +39,13 @@ var datalist = React.createClass({
 
         return this.state.supported ? (
 
-            <datalist id={this.props.id}>
+            <datalist id={this.props.list_id} className="react-datalist">
                 {options}
             </datalist>
 
         ) : (
 
-            <div id={this.props.id} className="react-datalist" style={containerStyle}>
+            <div id={this.props.list_id} className="react-datalist" style={containerStyle}>
                 {options}
             </div>
 
@@ -60,7 +60,7 @@ var datalist = React.createClass({
     },
     componentDidMount : function() {
         if (this.state.supported) return
-        var input = dom('input[list="'+this.props.id+'"]')
+        var input = dom('input[list="'+this.props.list_id+'"]')
         if (input.length == 0) { console.log('Unable to find related input element'); return }
 
         /** POSITION **/
