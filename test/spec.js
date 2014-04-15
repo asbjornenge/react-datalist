@@ -6,7 +6,7 @@ var datalist = require('../react-datalist.jsx')
 
 var options   = ['apples','oranges','pears','melons']
 var container = dom('<div id="container"></div>')
-var input     = dom('<input list="fruit" value="" />')
+var input     = dom('<input list="fruit" />')
 dom('body').append(input)
 dom('body').append(container)
 

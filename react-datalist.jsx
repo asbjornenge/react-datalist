@@ -3,6 +3,7 @@ var React = require('react')
 var dom   = require('nanodom')
 
 function filterOptions(options, filter) {
+    if (!filter) return options
     return options.filter(function(option) {
         return option.toLowerCase().indexOf(filter.toLowerCase()) >= 0
     })
@@ -34,8 +35,9 @@ var datalist = React.createClass({
             return this.state.supported ? <option value={option} /> : <div className="react-datalist-option" style={optionStyle}>{option}</div>
         }.bind(this))
 
-        // if (!this.state.supported) {
-        // }
+        if (!this.state.supported) {
+            // todo - set styling here?
+        }
 
         return this.state.supported ? (
 
