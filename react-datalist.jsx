@@ -63,8 +63,8 @@ var datalist = React.createClass({
     getInitialState : function() {
         return {
             suggestions   : [],
-            supported     : false,
-            // supported   : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement),
+            // supported     : false,
+            supported   : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement),
             filter        : "",
             top           : 0,
             left          : 0,
