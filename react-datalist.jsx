@@ -2,8 +2,6 @@
 var React = require('react')
 var dom   = require('nanodom')
 
-require('./react-datalist.styl')
-
 function filterOptions(options, filter) {
     if (filter == null) return options
     return options.filter(function(option) {
@@ -23,8 +21,11 @@ var datalistOption = React.createClass({
     render : function() {
         var classes = this.props.selected ? ['react-datalist-option', 'react-datalist-selected'] : ['react-datalist-option']
         return (
-            <div className={classes.join(' ')}>{this.props.option}</div>
+            <div className={classes.join(' ')} onClick={this.handleClick}>{this.props.option}</div>
         )
+    },
+    handleClick : function(e) {
+        this.props.select(this.props.option)
     }
 })
 
@@ -32,7 +33,7 @@ var datalist = React.createClass({
     render : function() {
         var filtered = this.state.supported ? this.props.options : filterOptions(this.props.options, this.state.filter)
         var options  = filtered.map(function(option, index) {
-            return this.state.supported ? <option value={option} /> : <datalistOption option={option} selected={index === this.state.selectedIndex} />
+            return this.state.supported ? <option value={option} /> : <datalistOption option={option} selected={index === this.state.selectedIndex} select={this.select} />
         }.bind(this))
 
         var containerStyle = {}
@@ -43,7 +44,7 @@ var datalist = React.createClass({
             else containerStyle.display = 'block'
             containerStyle.top   = this.state.top   + 'px'
             containerStyle.left  = this.state.left  + 'px'
-            containerStyle.width = this.state.width + 'px'
+            containerStyle.width = (this.state.width - 2) + 'px'
         }
 
         return this.state.supported ? (
@@ -69,8 +70,21 @@ var datalist = React.createClass({
             top           : 0,
             left          : 0,
             selectedIndex : false,
-            showOptions   : false
+            showOptions   : false,
+            input         : null
         }
+    },
+    select : function(option) {
+        console.log('select called')
+        this.state.input.value = option
+        var evt = document.createEvent("HTMLEvents")
+        evt.initEvent("change", false, true)
+        this.state.input.dispatchEvent(evt)
+        this.setState({
+            filter        : option,
+            selectedIndex : false,
+            showOptions   : false
+        })
     },
     componentDidMount : function() {
         if (this.state.supported) return
@@ -86,10 +100,11 @@ var datalist = React.createClass({
             filter     : input.value,
             top        : pos[0] + input.offsetHeight,
             left       : pos[1],
-            width      : input.offsetWidth
+            width      : input.offsetWidth,
+            input      : input
         })
 
-        // /** BINDINGS **/
+        /** BINDINGS **/
 
         input.onkeyup = function(event) {
             switch(event.which) {
@@ -123,19 +138,11 @@ var datalist = React.createClass({
                 case 13:
                     // ENTER
                     if (this.state.selectedIndex === false) return
-                    var new_value = filterOptions(this.props.options, this.state.filter)[this.state.selectedIndex]
-                    input.value = new_value
-                    var evt = document.createEvent("HTMLEvents")
-                    evt.initEvent("change", false, true)
-                    input.dispatchEvent(evt)
-                    this.setState({
-                        filter        : new_value,
-                        selectedIndex : false,
-                        showOptions   : false
-                    })
+                    var selected_option = filterOptions(this.props.options, this.state.filter)[this.state.selectedIndex]
+                    this.select(selected_option)
                     break
                 default:
-                    // Only if diff ?
+                    if (event.target.value == this.state.filter) return
                     this.setState({
                         filter        : event.target.value,
                         selectedIndex : false,
@@ -144,11 +151,12 @@ var datalist = React.createClass({
             }
         }.bind(this)
         input.onblur = function(event) {
-            this.setState({
-                filter        : this.state.origFilter,
-                selectedIndex : false,
-                showOptions   : false                  
-            })
+            setTimeout(function() {
+                this.setState({
+                    selectedIndex : false,
+                    showOptions   : false
+                })
+            }.bind(this),1000)
         }.bind(this)
     }
     // TODO: Unbind on unmount?
