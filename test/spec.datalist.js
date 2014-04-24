@@ -1,23 +1,17 @@
-require('node-jsx').install({extension: '.jsx'})
-var dom      = require('../dom')()
+var dom      = require('../dom')('<html><body><div id="container"></div></body></html>')
 var assert   = require('assert')
 var React    = require('react')
 var nanodom  = require('nanodom')
-var datalist = require('../react-datalist.jsx')
+var Datalist = require('../react-datalist')
 
 var options   = ['apple','orange','pear','pineapple','melon']
-var container = nanodom('<div id="container"></div>')
-var input     = nanodom('<input list="fruit" />')
-nanodom('body')[0].innerHTML=""
-nanodom('body').append(input)
-nanodom('body').append(container)
 var _datalist;
 function render(options, callback) {
-    _datalist = React.renderComponent(datalist(options), container[0], callback)
+    _datalist = React.renderComponent(Datalist(options), nanodom('#container')[0], callback)
 }
 render({options:options, id:'fruit', force:true})
 
-describe('TAGUHB HEADER', function() {
+describe('DATALIST', function() {
 
     it('Should be able to filter options', function() {
         var filtered = _datalist.filterOptions(options, null)
@@ -28,6 +22,13 @@ describe('TAGUHB HEADER', function() {
         assert(filtered.length === 3)
         filtered = _datalist.filterOptions(options, "lon")
         assert(filtered.length === 1)
+    })
+
+    it('Should be able to position the options list', function() {
+        var input = nanodom('input')[0]
+        var pos = _datalist.findPos(input)
+        assert(pos.length === 2)
+        assert(typeof pos[0] === 'number')
     })
 
     it('Should render a datalist with the passed options', function(done) {
@@ -67,6 +68,10 @@ describe('TAGUHB HEADER', function() {
             assert(domlist.style._values.display === 'none')
             done()
         })
+    })
+
+    it('Supports labels', function() {
+        // TODO
     })
 
 /*
