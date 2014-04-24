@@ -1,4 +1,4 @@
-var dom      = require('../dom')('<html><body><div id="container"></div></body></html>')
+var dom      = require('../dom')('<html><body><input list="fruit" /><div id="container"></div></body></html>')
 var assert   = require('assert')
 var React    = require('react')
 var nanodom  = require('nanodom')
