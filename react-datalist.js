@@ -3,7 +3,7 @@ var dom   = require('nanodom')
 
 var DatalistOption = React.createClass({
     render : function() {
-        var classes = this.props.selected ? ['react-datalist-option', 'react-datalist-selected'] : ['react-datalist-option']
+        var classes = this.props.selected ? ['react-datalist-option', 'react-datalist-option-selected'] : ['react-datalist-option']
         return (
             React.DOM.div
             ({
@@ -56,27 +56,27 @@ var Datalist = React.createClass({
             input         : null
         }
     },
-    componentDidMount : function() {
-        if (this.state.supported) return
-        var input = dom('input[list="'+this.props.id+'"]')
-        if (input.length == 0) { console.log('Unable to find related input element'); return }
-        var input = input[0]
+    // componentDidMount : function() {
+    //     if (this.state.supported) return
+    //     var input = dom('input[list="'+this.props.id+'"]')
+    //     if (input.length == 0) { console.log('Unable to find related input element'); return }
+    //     var input = input[0]
 
-        /** POSITION **/
+    //     /** POSITION **/
 
-        // TODO :  MOVE THIS TO BOX ??
+    //     // TODO :  MOVE THIS TO BOX ??
 
-        var pos = this.findPos(input)
-        this.setState({
-            origFilter : input.value,
-            filter     : input.value,
-            top        : pos[0] + input.offsetHeight,
-            left       : pos[1],
-            width      : input.offsetWidth,
-            input      : input
-        })
+    //     var pos = this.findPos(input)
+    //     this.setState({
+    //         origFilter : input.value,
+    //         filter     : input.value,
+    //         top        : pos[0] + input.offsetHeight,
+    //         left       : pos[1],
+    //         width      : input.offsetWidth,
+    //         input      : input
+    //     })
 
-    },
+    // },
     filterOptions : function(options, filter) {
         if (filter == null) return options
         return options.filter(function(option) {

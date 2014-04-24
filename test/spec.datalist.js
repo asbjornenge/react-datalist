@@ -9,9 +9,14 @@ var _datalist;
 function render(options, callback) {
     _datalist = React.renderComponent(Datalist(options), nanodom('#container')[0], callback)
 }
-render({options:options, id:'fruit', force:true})
 
 describe('DATALIST', function() {
+
+    before(function(done) {
+        render({options:options, id:'fruit', force:true}, function() {
+            done()
+        })
+    })
 
     it('Should be able to filter options', function() {
         var filtered = _datalist.filterOptions(options, null)

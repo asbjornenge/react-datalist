@@ -1,19 +1,47 @@
 var React         = require('react')
 var ReactDatalist = require('./react-datalist')
 
-var box = React.createCass({
+var box = React.createClass({
     render : function() {
         return (
             React.DOM.div
-            (null,
-            [
-                React.DOM.input({list:this.props.list}),
-                ReactDatalist({id:this.props.list})
+            ({
+                className : "react-datalist-container"
+            },[
+                React.DOM.input
+                ({
+                    list      : this.props.list,
+                    className : "react-datalist-input",
+                    value     : this.state.filter,
+                    onChange  : this.handleChange
+                }),
+                ReactDatalist
+                ({
+                    id      : this.props.list,
+                    options : this.state.options,
+                    force   : this.props.force,
+                    filter  : this.state.filter
+                })
             ])
         )
+    },
+    getInitialState : function() {
+        return {
+            filter  : this.props.filter,
+            options : this.props.options
+        }
+    },
+    componentWillReceiveProps : function(newprops) {
+        // TODO: Should this not be more restrictive? Only allow options and filter to change?
+        this.setState(newprops)
+    },
+    handleChange : function(event) {
+        this.setState({filter : event.target.value})
+        if (typeof this.props.onChange === 'function') this.props.onChange(event)
     }
 })
 
+module.exports = box
     // select : function(option) {
     //     console.log('select called')
     //     this.state.input.value = option
