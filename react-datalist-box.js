@@ -3,6 +3,9 @@ var ReactDatalist = require('./react-datalist')
 
 var box = React.createClass({
     render : function() {
+        // console.log(this.props.options)
+        var options = this.filterOptions(this.props.options, this.state.filter, this.state.support)
+        // console.log(options)
         return (
             React.DOM.div
             ({
@@ -18,41 +21,44 @@ var box = React.createClass({
                 ReactDatalist
                 ({
                     id      : this.props.list,
-                    options : this.state.options,
                     force   : this.props.force,
-                    filter  : this.state.filter
+                    support : this.props.support,
+                    hide    : this.props.hideOptions,
+                    filter  : this.state.filter,
+                    options : options
                 })
             ])
         )
     },
     getInitialState : function() {
+        var support = !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
+        if (this.props.force) support = false
         return {
             filter  : this.props.filter,
-            options : this.props.options
+            support : support
         }
     },
-    componentWillReceiveProps : function(newprops) {
-        // TODO: Should this not be more restrictive? Only allow options and filter to change?
-        this.setState(newprops)
+    componentWillReceiveProps : function(_new) {
+        this.setState({
+            filter  : _new.filter || this.state.filter,
+        })
     },
     handleChange : function(event) {
-        this.setState({filter : event.target.value})
+        this.setState({ filter  : event.target.value })
         if (typeof this.props.onChange === 'function') this.props.onChange(event)
+    },
+    filterOptions : function(options, filter, support) {
+        // console.log(options, filter, support)
+        if (support)        return options
+        if (filter == null) return options
+        if (!options)       return []
+        return options.filter(function(option) {
+            return option.toLowerCase().indexOf(filter.toLowerCase()) >= 0
+        })
     }
 })
 
 module.exports = box
-    // select : function(option) {
-    //     console.log('select called')
-    //     this.state.input.value = option
-    //     var evt = document.createEvent("HTMLEvents")
-    //     evt.initEvent("change", false, true)
-    //     this.state.input.dispatchEvent(evt)
-    //     this.setState({
-    //         filter        : option,
-    //         selectedIndex : false
-    //     })
-    // },
 
         /** BINDINGS **/
 
