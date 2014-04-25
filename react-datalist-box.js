@@ -27,6 +27,7 @@ var box = React.createClass({
                     hide     : this.state.hide,
                     filter   : this.state.filter,
                     selected : this.state.selected,
+                    select   : this.selectOption,
                     options  : options
                 })
             ])
@@ -83,7 +84,7 @@ var box = React.createClass({
                 this.selectOption(this.state.selected)
                 break
         }
-        console.log('keydown event', event.type, event.which)
+        // console.log('keydown event', event.type, event.which)
     },
     filterOptions : function(options, filter, support) {
         // console.log('** passed', options, filter, support)

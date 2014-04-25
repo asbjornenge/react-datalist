@@ -183,11 +183,24 @@ describe('DATALIST BOX', function() {
         })
     })
 
+    it('Will select an option if you click it', function(done) {
+        var selected = function(option) {
+            assert(option == options[3])
+            done()
+        }
+        var opts = merge(defaultOptions, {filter:'', onOptionSelected:selected})
+        render(opts, function() {
+            var _options = ReactTestUtils.scryRenderedDOMComponentsWithClass(_datalist, 'react-datalist-option')
+            ReactTestUtils.Simulate.click(_options[3])
+            // console.log(_options[0])
+        })
+    })
+
 /*
     test arrow up/down    - DONE
     test enter key option - DONE
     test esc              - DONE
-    test click option
+    test click option     - DONE
     test click input
 */
 

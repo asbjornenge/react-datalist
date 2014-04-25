@@ -13,14 +13,27 @@ var DatalistOption = React.createClass({
         )
     },
     handleClick : function(e) {
-        this.props.select(this.props.option)
+        this.props.select(this.props.index)
     }
 })
 
 var Datalist = React.createClass({
     render : function() {
         var options  = this.props.options.map(function(option, index) {
-            return this.props.support ? React.DOM.option({value:option}) : DatalistOption({option:option, selected: (this.props.selected === index)})
+            return this.props.support 
+                        ? 
+                        React.DOM.option
+                        ({
+                            value:option
+                        })
+                        : 
+                        DatalistOption
+                        ({
+                            option   : option, 
+                            index    : index,
+                            selected : (this.props.selected === index),
+                            select   : this.props.select
+                        })
         }.bind(this))
 
         var containerStyle = {}
