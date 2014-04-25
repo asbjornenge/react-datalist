@@ -20,13 +20,11 @@ var DatalistOption = React.createClass({
 var Datalist = React.createClass({
     render : function() {
         var options  = this.props.options.map(function(option, index) {
-            return this.props.support 
-                        ? 
+            return this.props.support ? 
                         React.DOM.option
                         ({
                             value:option
-                        })
-                        : 
+                        }) : 
                         DatalistOption
                         ({
                             option   : option, 
@@ -42,9 +40,9 @@ var Datalist = React.createClass({
             else if (this.props.options.length == 0) containerStyle.display = 'none'
             else if (this.props.options.length == 1 && this.props.options[0] == this.props.filter) containerStyle.display = 'none'
             else containerStyle.display = 'block'
-            containerStyle.top   = this.state.top   + 'px'
-            containerStyle.left  = this.state.left  + 'px'
-            containerStyle.width = (this.state.width - 2) + 'px'
+            // containerStyle.top   = this.state.top   + 'px'
+            // containerStyle.left  = this.state.left  + 'px'
+            // containerStyle.width = (this.state.width - 2) + 'px'
         }
         var Node = this.props.support ? React.DOM.datalist : React.DOM.div
 

@@ -192,7 +192,21 @@ describe('DATALIST BOX', function() {
         render(opts, function() {
             var _options = ReactTestUtils.scryRenderedDOMComponentsWithClass(_datalist, 'react-datalist-option')
             ReactTestUtils.Simulate.click(_options[3])
-            // console.log(_options[0])
+        })
+    })
+
+    it('Will releveal the available options if the input field is clicked', function(done) {
+        var opts = merge(defaultOptions, { hideOptions : true })
+        render(opts, function() {
+            var domlist = nanodom('.react-datalist')[0]
+            assert(domlist.childNodes.length == options.length)
+            assert(domlist.style._values.display === 'none')
+            var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+            ReactTestUtils.Simulate.click(_input)
+            var domlist = nanodom('.react-datalist')[0]
+            assert(domlist.childNodes.length == options.length)
+            assert(domlist.style._values.display === 'block')
+            done()
         })
     })
 

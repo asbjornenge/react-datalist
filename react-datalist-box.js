@@ -16,8 +16,9 @@ var box = React.createClass({
                     className : "react-datalist-input",
                     list      : this.props.list,
                     value     : this.state.filter,
-                    onChange  : this.handleChange,
-                    onKeyDown : this.handleKeyDown
+                    onClick   : this.handleInputClick,
+                    onChange  : this.handleInputChange,
+                    onKeyDown : this.handleInputKeyDown
                 }),
                 ReactDatalist
                 ({
@@ -50,11 +51,14 @@ var box = React.createClass({
             hide     : (typeof _new.hideOptions !== 'undefined') ? _new.hideOptions : this.state.hideOptions,
         })
     },
-    handleChange : function(event) {
+    handleInputClick : function(event) {
+        this.setState({ hide : false })
+    },
+    handleInputChange : function(event) {
         this.setState({ filter  : event.target.value })
         if (typeof this.props.onChange === 'function') this.props.onChange(event)
     },
-    handleKeyDown : function(event) {
+    handleInputKeyDown : function(event) {
         switch(event.which) {
             case 40:
                 // DOWN Arrow
@@ -106,55 +110,3 @@ var box = React.createClass({
 })
 
 module.exports = box
-
-        /** BINDINGS **/
-
-        // input.onkeyup = function(event) {
-        //     switch(event.which) {
-        //         case 40:
-        //             // DOWN arrow
-        //             var newSelectedIndex = this.state.selectedIndex === false ? 0 : this.state.selectedIndex + 1
-        //             var availableOptions = filterOptions(this.props.options, this.state.filter)
-        //             if (newSelectedIndex >= availableOptions.length) newSelectedIndex = availableOptions.length - 1
-        //             this.setState({
-        //                 selectedIndex : newSelectedIndex,
-        //                 showOptions   : true
-        //             })
-        //             break
-        //         case 38:
-        //             // UP arrow
-        //             var newSelectedIndex = this.state.selectedIndex > 0 ? this.state.selectedIndex - 1 : 0
-        //             this.setState({selectedIndex : newSelectedIndex})
-        //             break
-        //         case 27:
-        //             // ESC
-        //             var post_esc_state = {
-        //                 selectedIndex : false
-        //             }
-        //             if (this.state.hideOptions) {
-        //                 input.value           = ""
-        //                 post_esc_state.filter = ""
-        //             }
-        //             this.setState(post_esc_state)
-        //             break
-        //         case 13:
-        //             // ENTER
-        //             if (this.state.selectedIndex === false) return
-        //             var selected_option = filterOptions(this.props.options, this.state.filter)[this.state.selectedIndex]
-        //             this.select(selected_option)
-        //             break
-        //         default:
-        //             if (event.target.value == this.state.filter) return
-        //             this.setState({
-        //                 filter        : event.target.value,
-        //                 selectedIndex : false
-        //             })
-        //     }
-        // }.bind(this)
-        // input.onblur = function(event) {
-        //     setTimeout(function() {
-        //         this.setState({
-        //             selectedIndex : false
-        //         })
-        //     }.bind(this),1000)
-        // }.bind(this)
