@@ -62,7 +62,11 @@ var box = React.createClass({
                     selected : newSelectedIndex
                 })
                 break
-
+            case 38:
+                // UP arrow
+                var newSelectedIndex = this.state.selected > 0 ? this.state.selected - 1 : 0
+                this.setState({selected : newSelectedIndex})
+                break
         }
         console.log('keydown event', event.type, event.which)
     },

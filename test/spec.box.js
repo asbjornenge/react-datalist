@@ -114,21 +114,28 @@ describe('DATALIST BOX', function() {
         })
     })
 
-    it('Should filter options should change when the input value changes', function(done) {
+    it('Can navigate options with arrow keys', function(done) {
         var opts = merge(defaultOptions, {filter:''})
         render(opts, function() {
             var __datalist = nanodom('.react-datalist')[0]
             var __input    = nanodom('.react-datalist-input')[0]
             var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
             assert(__datalist.childNodes.length == options.length)
+            // Down to first item
             ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
             var __option = nanodom('.react-datalist-option-selected')
             assert(__option.length == 1)
             assert(__option[0].innerHTML == options[0])
+            // Down to second item
             ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
             var __option = nanodom('.react-datalist-option-selected')
             assert(__option.length == 1)
             assert(__option[0].innerHTML == options[1])
+            // Up to first item
+            ReactTestUtils.Simulate.keyDown(_input, {which: 38, type: "keydown"})
+            var __option = nanodom('.react-datalist-option-selected')
+            assert(__option.length == 1)
+            assert(__option[0].innerHTML == options[0])
             done()
         })
     })
