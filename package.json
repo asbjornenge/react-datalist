@@ -5,7 +5,7 @@
   "main": "react-datalist.jsx",
   "scripts": {
     "test": "mocha --ui bdd",
-    "localtest": "mocha -R nyan --check-leaks -w test/local"
+    "localtest": "mocha -R nyan --check-leaks -w"
   },
   "repository": {
     "type": "git",
