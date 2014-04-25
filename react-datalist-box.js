@@ -42,9 +42,9 @@ var box = React.createClass({
         }
     },
     componentWillReceiveProps : function(_new) {
-        // console.log(_new.filter, typeof _new.filter)
         this.setState({
-            filter  : (typeof _new.filter === 'string') ? _new.filter : this.state.filter,
+            filter   : (typeof _new.filter === 'string')      ? _new.filter   : this.state.filter,
+            selected : (typeof _new.selected !== 'undefined') ? _new.selected : this.state.selected
         })
     },
     handleChange : function(event) {
@@ -67,6 +67,11 @@ var box = React.createClass({
                 var newSelectedIndex = this.state.selected > 0 ? this.state.selected - 1 : 0
                 this.setState({selected : newSelectedIndex})
                 break
+            case 13:
+                // ENTER
+                if (this.state.selected === false) return
+                this.selectOption(this.state.selected)
+                break
         }
         console.log('keydown event', event.type, event.which)
     },
@@ -78,6 +83,13 @@ var box = React.createClass({
         if (!options)       return []
         return options.filter(function(option) {
             return option.toLowerCase().indexOf(filter.toLowerCase()) >= 0
+        })
+    },
+    selectOption : function(index) {
+        var selected_option = this.filterOptions(this.props.options, this.state.filter, this.state.support)[index]
+        if (typeof this.props.onOptionSelected === 'function') this.props.onOptionSelected(selected_option)
+        this.setState({
+            filter : selected_option
         })
     }
 })

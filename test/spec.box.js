@@ -140,6 +140,26 @@ describe('DATALIST BOX', function() {
         })
     })
 
+    it('Can select an option by hitting enter', function(done) {
+        var selected = function(option) {
+            assert(option == options[0])
+            done()
+        }
+        var opts = merge(defaultOptions, {filter:'', selected:false, onOptionSelected:selected})
+        render(opts, function() {
+            var __datalist = nanodom('.react-datalist')[0]
+            var __input    = nanodom('.react-datalist-input')[0]
+            var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+            assert(__datalist.childNodes.length == options.length)
+            // Down to an item
+            ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
+            var __option = nanodom('.react-datalist-option-selected')
+            assert(__option.length == 1)
+            // Enter to select it
+            ReactTestUtils.Simulate.keyDown(_input, {which: 13, type: "keydown"})
+        })
+    })
+
 /*
     test arrow up/down
     test click option
