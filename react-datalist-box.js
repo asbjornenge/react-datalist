@@ -24,7 +24,7 @@ var box = React.createClass({
                     id       : this.props.list,
                     force    : this.props.force,
                     support  : this.props.support,
-                    hide     : this.props.hideOptions,
+                    hide     : this.state.hide,
                     filter   : this.state.filter,
                     selected : this.state.selected,
                     options  : options
@@ -37,14 +37,16 @@ var box = React.createClass({
         if (this.props.force) support = false
         return {
             filter   : this.props.filter,
+            hide     : this.props.hideOptions,
             selected : false,
             support  : support
         }
     },
     componentWillReceiveProps : function(_new) {
         this.setState({
-            filter   : (typeof _new.filter === 'string')      ? _new.filter   : this.state.filter,
-            selected : (typeof _new.selected !== 'undefined') ? _new.selected : this.state.selected
+            filter   : (typeof _new.filter === 'string')         ? _new.filter      : this.state.filter,
+            selected : (typeof _new.selected !== 'undefined')    ? _new.selected    : this.state.selected,
+            hide     : (typeof _new.hideOptions !== 'undefined') ? _new.hideOptions : this.state.hideOptions,
         })
     },
     handleChange : function(event) {
@@ -66,6 +68,14 @@ var box = React.createClass({
                 // UP arrow
                 var newSelectedIndex = this.state.selected > 0 ? this.state.selected - 1 : 0
                 this.setState({selected : newSelectedIndex})
+                break
+            case 27:
+                // ESC
+                this.setState({
+                    selected : false,
+                    hide     : true,
+                    filter   : this.state.hide ? "" : this.state.filter
+                })
                 break
             case 13:
                 // ENTER

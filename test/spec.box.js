@@ -160,11 +160,35 @@ describe('DATALIST BOX', function() {
         })
     })
 
+    it('Can hide the options by pressing ESC', function(done) {
+        var opts = merge(defaultOptions, {filter:'p'})
+        render(opts, function() {
+            var __datalist, __input, _input;
+            _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+            __datalist = nanodom('.react-datalist')[0]
+            assert(__datalist.childNodes.length == 3)
+            // ESC to hide the options
+            ReactTestUtils.Simulate.keyDown(_input, {which: 27, type: "keydown"})
+            __datalist = nanodom('.react-datalist')[0]
+            __input    = nanodom('.react-datalist-input')[0]
+            assert(__datalist.style._values.display === 'none')
+            assert(__input.value === 'p')
+            // ESC again to clear filter
+            ReactTestUtils.Simulate.keyDown(_input, {which: 27, type: "keydown"})
+            __datalist = nanodom('.react-datalist')[0]
+            __input    = nanodom('.react-datalist-input')[0]
+            assert(__datalist.style._values.display === 'none')
+            assert(__input.value === '')
+            done()
+        })
+    })
+
 /*
-    test arrow up/down
+    test arrow up/down    - DONE
+    test enter key option - DONE
+    test esc              - DONE
     test click option
     test click input
-    test esc
 */
 
 })
