@@ -20,7 +20,7 @@ var DatalistOption = React.createClass({
 var Datalist = React.createClass({
     render : function() {
         var options  = this.props.options.map(function(option, index) {
-            return this.props.support ? React.DOM.option({value:option}) : DatalistOption({option:option})
+            return this.props.support ? React.DOM.option({value:option}) : DatalistOption({option:option, selected: (this.props.selected === index)})
         }.bind(this))
 
         var containerStyle = {}
@@ -48,7 +48,6 @@ var Datalist = React.createClass({
         return {
             top           : 0,
             left          : 0,
-            selectedIndex : false,
             input         : null
         }
     },

@@ -13,19 +13,21 @@ var box = React.createClass({
             },[
                 React.DOM.input
                 ({
-                    list      : this.props.list,
                     className : "react-datalist-input",
+                    list      : this.props.list,
                     value     : this.state.filter,
-                    onChange  : this.handleChange
+                    onChange  : this.handleChange,
+                    onKeyDown : this.handleKeyDown
                 }),
                 ReactDatalist
                 ({
-                    id      : this.props.list,
-                    force   : this.props.force,
-                    support : this.props.support,
-                    hide    : this.props.hideOptions,
-                    filter  : this.state.filter,
-                    options : options
+                    id       : this.props.list,
+                    force    : this.props.force,
+                    support  : this.props.support,
+                    hide     : this.props.hideOptions,
+                    filter   : this.state.filter,
+                    selected : this.state.selected,
+                    options  : options
                 })
             ])
         )
@@ -34,8 +36,9 @@ var box = React.createClass({
         var support = !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
         if (this.props.force) support = false
         return {
-            filter  : this.props.filter,
-            support : support
+            filter   : this.props.filter,
+            selected : false,
+            support  : support
         }
     },
     componentWillReceiveProps : function(_new) {
@@ -47,6 +50,21 @@ var box = React.createClass({
     handleChange : function(event) {
         this.setState({ filter  : event.target.value })
         if (typeof this.props.onChange === 'function') this.props.onChange(event)
+    },
+    handleKeyDown : function(event) {
+        switch(event.which) {
+            case 40:
+                // DOWN Arrow
+                var newSelectedIndex  = this.state.selected === false ? 0 : this.state.selected + 1
+                var availableOptions  = this.filterOptions(this.props.options, this.state.filter, this.state.support)
+                if (newSelectedIndex >= availableOptions.length) newSelectedIndex = availableOptions.length - 1
+                this.setState({
+                    selected : newSelectedIndex
+                })
+                break
+
+        }
+        console.log('keydown event', event.type, event.which)
     },
     filterOptions : function(options, filter, support) {
         // console.log('** passed', options, filter, support)
