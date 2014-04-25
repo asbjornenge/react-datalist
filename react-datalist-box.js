@@ -5,7 +5,7 @@ var box = React.createClass({
     render : function() {
         // console.log(this.props.options)
         var options = this.filterOptions(this.props.options, this.state.filter, this.state.support)
-        // console.log(options)
+        // console.log('after',options)
         return (
             React.DOM.div
             ({
@@ -39,8 +39,9 @@ var box = React.createClass({
         }
     },
     componentWillReceiveProps : function(_new) {
+        // console.log(_new.filter, typeof _new.filter)
         this.setState({
-            filter  : _new.filter || this.state.filter,
+            filter  : (typeof _new.filter === 'string') ? _new.filter : this.state.filter,
         })
     },
     handleChange : function(event) {
@@ -48,9 +49,10 @@ var box = React.createClass({
         if (typeof this.props.onChange === 'function') this.props.onChange(event)
     },
     filterOptions : function(options, filter, support) {
-        // console.log(options, filter, support)
+        // console.log('** passed', options, filter, support)
         if (support)        return options
-        if (filter == null) return options
+        if (!filter)        return options
+        if (filter === '')  return options
         if (!options)       return []
         return options.filter(function(option) {
             return option.toLowerCase().indexOf(filter.toLowerCase()) >= 0

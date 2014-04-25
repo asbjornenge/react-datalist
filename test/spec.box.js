@@ -8,7 +8,7 @@ var ReactAddons    = require('react/addons')
 var ReactTestUtils = React.addons.TestUtils
 
 var options        = ['apple','orange','pear','pineapple','melon']
-var defaultOptions = {options:options, list:'fruit', force:true}
+var defaultOptions = {options:options, list:'fruit', force:true, filter:''}
 var _datalist;
 function render(options, callback) {
     _datalist = React.renderComponent(datalist(options), nanodom('#container')[0], callback)
@@ -82,7 +82,6 @@ describe('DATALIST BOX', function() {
         var opts = merge(defaultOptions, { hideOptions : true })
         render(opts, function() {
             var domlist = nanodom('.react-datalist')[0]
-            console.log(domlist.childNodes.length)
             assert(domlist.childNodes.length == options.length)
             assert(domlist.style._values.display === 'none')
             done()
@@ -116,11 +115,9 @@ describe('DATALIST BOX', function() {
     })
 
 /*
-    test filters
-    test click
     test arrow up/down
+    test click
     test esc
-    test trigger onChange etc. callbacks for box too
 */
 
 })
