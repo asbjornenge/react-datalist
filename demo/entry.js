@@ -44,15 +44,21 @@ var Demo = React.createClass({
                     React.DOM.span({ className : 'switchlabel' }, 'Try a native datalist.'),
                 ]),
                 React.DOM.h1({ className : 'mainlabel' }, 'Find your favorite fruit!'),
-                ReactDatalist({options:options, list:'fruit', forcePoly:this.state.forcePoly, hideOptions:true})
+                ReactDatalist({options:options, list:'fruit', filter:this.state.filter, forcePoly:this.state.forcePoly, hideOptions:true})
             ])
         )
     },
     getInitialState : function() {
-        return { forcePoly : true }
+        return { 
+            forcePoly : true,
+            filter    : ''
+        }
     },
     handleNativeRequest : function(native) {
-        this.setState({ forcePoly : !native })
+        this.setState({ 
+            forcePoly : !native,
+            filter    : ''
+        })
     }
 })
 

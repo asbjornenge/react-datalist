@@ -98,7 +98,9 @@ var container = React.createClass({
         })
     },
     handleInputBlur : function(event) {
-        this.setState({ hide : true })
+        setTimeout(function() {
+            this.setState({ hide : true })
+        }.bind(this),10)
         if (typeof this.props.onInputBlur === 'function') this.props.onInputBlur(event)
     },
     handleInputClick : function(event) {

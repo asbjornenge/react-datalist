@@ -20,7 +20,7 @@ function merge(obj1, obj2) {
     return obj3
 }
 
-describe('DATALIST BOX', function() {
+describe('DATALIST', function() {
 
     before(function(done) {
         render(defaultOptions, function() {
@@ -218,10 +218,13 @@ describe('DATALIST BOX', function() {
             assert(domlist.style._values.display === 'block')
             var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
             ReactTestUtils.Simulate.blur(_input)
-            var domlist = nanodom('.react-datalist')[0]
-            assert(domlist.childNodes.length == 1)
-            assert(domlist.style._values.display === 'none')
-            done()
+            // The options hang for 10ms so that click works properly
+            setTimeout(function() {
+                var domlist = nanodom('.react-datalist')[0]
+                assert(domlist.childNodes.length == 1)
+                assert(domlist.style._values.display === 'none')
+                done()                
+            },20)
         })
     })
 
