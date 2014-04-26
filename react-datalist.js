@@ -34,7 +34,7 @@ var ReactDatalist = React.createClass({
         if (!this.props.support) {
             if (this.props.hide) containerStyle.display = 'none'
             else if (this.props.options.length == 0) containerStyle.display = 'none'
-            else if (this.props.options.length == 1 && this.props.options[0] == this.props.filter) containerStyle.display = 'none'
+            // else if (this.props.options.length == 1 && this.props.options[0] == this.props.filter) containerStyle.display = 'none'
             else containerStyle.display = 'block'
         }
         var Node = this.props.useNative ? React.DOM.datalist : React.DOM.div

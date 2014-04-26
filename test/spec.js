@@ -68,15 +68,17 @@ describe('DATALIST', function() {
         })
     })
 
-    it('Filter matching option should hide the options', function(done) {
-        var opts = merge(defaultOptions, {filter:'melon'})
-        render(opts, function() {
-            var domlist = nanodom('.react-datalist')[0]
-            assert(domlist.childNodes.length == 1)
-            assert(domlist.style._values.display === 'none')
-            done()
-        })
-    })
+    // Changed this behaviour
+    //
+    // it('Filter matching option should hide the options', function(done) {
+    //     var opts = merge(defaultOptions, {filter:'melon'})
+    //     render(opts, function() {
+    //         var domlist = nanodom('.react-datalist')[0]
+    //         assert(domlist.childNodes.length == 1)
+    //         assert(domlist.style._values.display === 'none')
+    //         done()
+    //     })
+    // })
 
     it('Passing hideOptions should hide options no matter what', function(done) {
         var opts = merge(defaultOptions, { hideOptions : true })
