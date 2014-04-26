@@ -2,7 +2,7 @@ var dom            = require('../dom')('<html><body><div id="container"></div></
 var assert         = require('assert')
 var React          = require('react')
 var nanodom        = require('nanodom')
-var datalist       = require('../react-datalist-box')
+var datalist       = require('../react-datalist')
 var ReactAddons    = require('react/addons')
 
 var ReactTestUtils = React.addons.TestUtils
