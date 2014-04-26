@@ -28,8 +28,11 @@
     "react": "^0.10.0"
   },
   "devDependencies": {
+    "css-loader": "^0.6.12",
     "jsdom": "^0.10.5",
     "mocha": "^1.18.2",
-    "node-jsx": "^0.10.0"
+    "node-jsx": "^0.10.0",
+    "style-loader": "^0.6.3",
+    "stylus-loader": "^0.2.0"
   }
 }

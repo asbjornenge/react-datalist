@@ -22,8 +22,8 @@ var ReactDatalistOption = React.createClass({
 
 var ReactDatalist = React.createClass({
     render : function() {
-        var options  = this.props.options.map(function(option, index) {
-            return this.props.support ? React.DOM.option({ value:option }) : ReactDatalistOption({
+        var options = this.props.options.map(function(option, index) {
+            return this.props.useNative ? React.DOM.option({ value:option }) : ReactDatalistOption({
                 option   : option, 
                 index    : index,
                 selected : (this.props.selected === index),
@@ -37,7 +37,7 @@ var ReactDatalist = React.createClass({
             else if (this.props.options.length == 1 && this.props.options[0] == this.props.filter) containerStyle.display = 'none'
             else containerStyle.display = 'block'
         }
-        var Node = this.props.support ? React.DOM.datalist : React.DOM.div
+        var Node = this.props.useNative ? React.DOM.datalist : React.DOM.div
         return (
             Node
             ({
@@ -51,9 +51,9 @@ var ReactDatalist = React.createClass({
 
 /** STATEHOLDER **/
 
-var box = React.createClass({
+var container = React.createClass({
     render : function() {
-        var options = this.filterOptions(this.props.options, this.state.filter, this.state.support)
+        var options = this.filterOptions(this.props.options, this.state.filter, this.useNative())
         return (
             React.DOM.div
             ({
@@ -70,26 +70,23 @@ var box = React.createClass({
                 }),
                 ReactDatalist
                 ({
-                    id       : this.props.list,
-                    force    : this.props.force,
-                    support  : this.props.support,
-                    hide     : this.state.hide,
-                    filter   : this.state.filter,
-                    selected : this.state.selected,
-                    select   : this.selectOption,
-                    options  : options
+                    id        : this.props.list,
+                    hide      : this.state.hide,
+                    filter    : this.state.filter,
+                    selected  : this.state.selected,
+                    select    : this.selectOption,
+                    useNative : this.useNative(),
+                    options   : options
                 })
             ])
         )
     },
     getInitialState : function() {
-        var support = !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
-        if (this.props.force) support = false
         return {
             filter   : this.props.filter,
             hide     : this.props.hideOptions,
             selected : false,
-            support  : support
+            support  : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
         }
     },
     componentWillReceiveProps : function(_new) {
@@ -103,7 +100,10 @@ var box = React.createClass({
         this.setState({ hide : false })
     },
     handleInputChange : function(event) {
-        this.setState({ filter  : event.target.value })
+        this.setState({ 
+            filter  : event.target.value,
+            hide    : false
+        })
         if (typeof this.props.onChange === 'function') this.props.onChange(event)
     },
     handleInputKeyDown : function(event) {
@@ -111,10 +111,11 @@ var box = React.createClass({
             case 40:
                 // DOWN Arrow
                 var newSelectedIndex  = this.state.selected === false ? 0 : this.state.selected + 1
-                var availableOptions  = this.filterOptions(this.props.options, this.state.filter, this.state.support)
+                var availableOptions  = this.filterOptions(this.props.options, this.state.filter, this.useNative())
                 if (newSelectedIndex >= availableOptions.length) newSelectedIndex = availableOptions.length - 1
                 this.setState({
-                    selected : newSelectedIndex
+                    selected : newSelectedIndex,
+                    hide     : false
                 })
                 break
             case 38:
@@ -147,12 +148,18 @@ var box = React.createClass({
         })
     },
     selectOption : function(index) {
-        var selected_option = this.filterOptions(this.props.options, this.state.filter, this.state.support)[index]
+        var selected_option = this.filterOptions(this.props.options, this.state.filter, this.useNative())[index]
         if (typeof this.props.onOptionSelected === 'function') this.props.onOptionSelected(selected_option)
         this.setState({
-            filter : selected_option
+            filter : selected_option,
+            hide   : true
         })
+    },
+    useNative : function() {
+        var _native = this.state.support
+        if (this.props.forcePoly) _native = false
+        return _native
     }
 })
 
-module.exports = box
+module.exports = container

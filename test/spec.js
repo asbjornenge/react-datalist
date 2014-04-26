@@ -8,7 +8,7 @@ var ReactAddons    = require('react/addons')
 var ReactTestUtils = React.addons.TestUtils
 
 var options        = ['apple','orange','pear','pineapple','melon']
-var defaultOptions = {options:options, list:'fruit', force:true, filter:''}
+var defaultOptions = {options:options, list:'fruit', forcePoly:true, filter:''}
 var _datalist;
 function render(options, callback) {
     _datalist = React.renderComponent(datalist(options), nanodom('#container')[0], callback)
