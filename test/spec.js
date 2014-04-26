@@ -210,4 +210,31 @@ describe('DATALIST BOX', function() {
         })
     })
 
+    it('Will hide the options on input blur', function(done) {
+        var opts = merge(defaultOptions, { filter : 'm' })
+        render(opts, function() {
+            var domlist = nanodom('.react-datalist')[0]
+            assert(domlist.childNodes.length == 1)
+            assert(domlist.style._values.display === 'block')
+            var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+            ReactTestUtils.Simulate.blur(_input)
+            var domlist = nanodom('.react-datalist')[0]
+            assert(domlist.childNodes.length == 1)
+            assert(domlist.style._values.display === 'none')
+            done()
+        })
+    })
+
+    it('Will expose the input blur event', function(done) {
+        var blur = function(event) {
+            assert(true)
+            done()
+        }
+        var opts = merge(defaultOptions, { onInputBlur : blur })
+        render(opts, function() {
+            var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+            ReactTestUtils.Simulate.blur(_input)
+        })
+    })
+
 })
