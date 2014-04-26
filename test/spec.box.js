@@ -210,12 +210,4 @@ describe('DATALIST BOX', function() {
         })
     })
 
-/*
-    test arrow up/down    - DONE
-    test enter key option - DONE
-    test esc              - DONE
-    test click option     - DONE
-    test click input
-*/
-
 })
