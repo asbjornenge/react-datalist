@@ -8,7 +8,7 @@ var ReactAddons    = require('react/addons')
 var ReactTestUtils = React.addons.TestUtils
 
 var options        = ['apple','orange','pear','pineapple','melon']
-var defaultOptions = {options:options, list:'fruit', forcePoly:true, filter:''}
+var defaultOptions = {options:options, list:'fruit', forcePoly:true, forceReset:true, filter:''}
 var _datalist;
 function render(options, callback) {
     _datalist = React.renderComponent(datalist(options), nanodom('#container')[0], callback)
@@ -54,18 +54,7 @@ describe('DATALIST', function() {
         assert(domlist.length == 1)
         assert(domlist[0].childNodes.length == options.length)
         assert(domlist[0].id == 'fruit')
-        assert(domlist[0].style._values.display === 'block')
         done()
-    })
-
-    it('Should filter options based on filter prop', function(done) {
-        var opts = merge(defaultOptions, {filter:'p'})
-        render(opts, function() {
-            var domlist = nanodom('.react-datalist')[0]
-            assert(domlist.childNodes.length == 3)
-            assert(domlist.style._values.display === 'block')
-            done()
-        })
     })
 
     it('Passing hideOptions should hide options no matter what', function(done) {
@@ -79,12 +68,11 @@ describe('DATALIST', function() {
     })
 
     it('Should filter options should change when the input value changes', function(done) {
-        var opts = merge(defaultOptions, {filter:'p'})
-        render(opts, function() {
+        render(defaultOptions, function() {
             var __datalist = nanodom('.react-datalist')[0]
             var __input    = nanodom('.react-datalist-input')[0]
             var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
-            assert(__datalist.childNodes.length == 3)
+            assert(__datalist.childNodes.length == options.length)
             __input.value = "melon"
             ReactTestUtils.Simulate.change(_input)
             assert(__datalist.childNodes.length == 1)
@@ -155,6 +143,7 @@ describe('DATALIST', function() {
         render(opts, function() {
             var __datalist, __input, _input;
             _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+            ReactTestUtils.Simulate.change(_input)
             __datalist = nanodom('.react-datalist')[0]
             assert(__datalist.childNodes.length == 3)
             // ESC to hide the options
@@ -186,22 +175,20 @@ describe('DATALIST', function() {
     })
 
     it('Will releveal the available options if the input field is clicked', function(done) {
-        var opts = merge(defaultOptions, { hideOptions : true })
+        var opts = merge(defaultOptions, { hideOptions:true })
         render(opts, function() {
             var domlist = nanodom('.react-datalist')[0]
-            assert(domlist.childNodes.length == options.length)
             assert(domlist.style._values.display === 'none')
             var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
             ReactTestUtils.Simulate.click(_input)
             var domlist = nanodom('.react-datalist')[0]
-            assert(domlist.childNodes.length == options.length)
             assert(domlist.style._values.display === 'block')
             done()
         })
     })
 
     it('Will hide the options on input blur', function(done) {
-        var opts = merge(defaultOptions, { filter : 'm' })
+        var opts = merge(defaultOptions, { filter:'m'})
         render(opts, function() {
             var domlist = nanodom('.react-datalist')[0]
             assert(domlist.childNodes.length == 1)

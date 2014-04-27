@@ -64,8 +64,6 @@ var Demo = React.createClass({
                 ReactDatalist({
                     options          : fruit,
                     list             : 'fruit',
-                    hideOptions      : true,
-                    filter           : this.state.filter,
                     forcePoly        : this.state.forcePoly,
                     onOptionSelected : this.onOptionSelected
                 }),
@@ -76,7 +74,6 @@ var Demo = React.createClass({
     getInitialState : function() {
         return { 
             forcePoly      : true,
-            filter         : '',
             selectedOption : '',
             support        : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
         }

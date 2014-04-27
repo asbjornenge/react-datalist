@@ -37,7 +37,7 @@ var ReactDatalist = React.createClass({
             })
         }.bind(this))
         var containerStyle = {}
-        if (!this.props.support) {
+        if (!this.props.useNative) {
             if (this.props.hide) containerStyle.display = 'none'
             else if (this.props.options.length == 0) containerStyle.display = 'none'
             else containerStyle.display = 'block'
@@ -94,17 +94,18 @@ var container = React.createClass({
     },
     getInitialState : function() {
         return {
-            filter   : this.props.filter,
-            hide     : this.props.hideOptions,
+            filter   : this.props.filter      || '',
+            hide     : this.props.hideOptions || true,
             selected : false,
             support  : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
         }
     },
     componentWillReceiveProps : function(_new) {
+        if (!_new.forceReset) return
         this.setState({
+            hide     : (typeof _new.hideOptions !== 'undefined') ? _new.hideOptions : this.state.hide,
             filter   : (typeof _new.filter === 'string')         ? _new.filter      : this.state.filter,
-            selected : (typeof _new.selected !== 'undefined')    ? _new.selected    : this.state.selected,
-            hide     : (typeof _new.hideOptions !== 'undefined') ? _new.hideOptions : this.state.hideOptions,
+            selected : (typeof _new.selected !== 'undefined')    ? _new.selected    : this.state.selected
         })
     },
     handleInputBlur : function(event) {
@@ -176,8 +177,9 @@ var container = React.createClass({
         var selected_option = this.filterOptions(this.props.options, this.state.filter, this.useNative())[index]
         if (typeof this.props.onOptionSelected === 'function') this.props.onOptionSelected(selected_option)
         this.setState({
-            filter : selected_option,
-            hide   : true
+            filter   : selected_option,
+            selected : false,
+            hide     : true
         })
     },
     useNative : function() {
