@@ -68,18 +68,6 @@ describe('DATALIST', function() {
         })
     })
 
-    // Changed this behaviour
-    //
-    // it('Filter matching option should hide the options', function(done) {
-    //     var opts = merge(defaultOptions, {filter:'melon'})
-    //     render(opts, function() {
-    //         var domlist = nanodom('.react-datalist')[0]
-    //         assert(domlist.childNodes.length == 1)
-    //         assert(domlist.style._values.display === 'none')
-    //         done()
-    //     })
-    // })
-
     it('Passing hideOptions should hide options no matter what', function(done) {
         var opts = merge(defaultOptions, { hideOptions : true })
         render(opts, function() {
@@ -105,11 +93,11 @@ describe('DATALIST', function() {
     })
 
     it('Should call its callback', function(done) {
-        var onChange = function(event) {
+        var onInputChange = function(event) {
             assert(true)
             done()
         }
-        var opts = merge(defaultOptions, {onChange:onChange})
+        var opts = merge(defaultOptions, {onInputChange:onInputChange})
         render(opts, function() {
             var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
             ReactTestUtils.Simulate.change(_input)

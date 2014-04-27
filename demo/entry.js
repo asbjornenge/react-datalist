@@ -1,5 +1,6 @@
 var React         = require('react')
 var ReactDatalist = require('../react-datalist')
+var fruit         = require('./fruit')
 
 /** STYLE **/
 
@@ -35,23 +36,49 @@ var NativeSwitch = React.createClass({
     }
 })
 
+var MessageBox = React.createClass({
+    render : function() {
+        var info, error;
+        if (this.props.info  != '') info  = React.DOM.div({className:'info-message'},  this.props.info)
+        if (this.props.error != '') error = React.DOM.div({className:'error-message'}, this.props.error)
+        return (
+            React.DOM.div({
+                className : 'message-box'
+            },[
+                info,
+                error
+            ])
+        )
+    }
+})
+
 var Demo = React.createClass({
     render : function() {
+        var infoMessage, errorMessage;
+        if (this.state.selectedOption) infoMessage = 'You choose ' + this.state.selectedOption + '. Good job!'
+        if (!this.state.support && !this.state.forcePoly) errorMessage = 'Your browser does not support the native datalist :-( No worries, react-datalist got your back.'
         return (
             React.DOM.div(null, [
-                React.DOM.div({ className : 'switchbox' }, [
-                    NativeSwitch({onChange:this.handleNativeRequest}),
-                    React.DOM.span({ className : 'switchlabel' }, 'Try a native datalist.'),
-                ]),
-                React.DOM.h1({ className : 'mainlabel' }, 'Find your favorite fruit!'),
-                ReactDatalist({options:options, list:'fruit', filter:this.state.filter, forcePoly:this.state.forcePoly, hideOptions:true})
+                NativeSwitch({onChange:this.handleNativeRequest}),
+                React.DOM.h1({ className : 'main-label' }, 'Find your favorite fruit!'),
+                ReactDatalist({
+                    options          : fruit,
+                    list             : 'fruit',
+                    hideOptions      : true,
+                    filter           : this.state.filter,
+                    forcePoly        : this.state.forcePoly,
+                    onOptionSelected : this.onOptionSelected
+                }),
+                MessageBox({ info : infoMessage, error : errorMessage })
             ])
         )
     },
     getInitialState : function() {
         return { 
-            forcePoly : true,
-            filter    : ''
+            forcePoly      : true,
+            filter         : '',
+            selectedOption : '',
+            support        : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
         }
     },
     handleNativeRequest : function(native) {
@@ -59,11 +86,16 @@ var Demo = React.createClass({
             forcePoly : !native,
             filter    : ''
         })
+    },
+    onOptionSelected : function(option) {
+        this.setState({ 
+            selectedOption : option
+        })
+        clearTimeout(this.optionSelectedTimeout)
+        this.optionSelectedTimeout = setTimeout(function() {
+            this.setState({selectedOption : ''})
+        }.bind(this), 3000)
     }
 })
-
-// React.renderComponent(ReactDatalist({options:options, id:'fruit', force:true, hideOptions:true}), document.querySelectorAll('#container')[0], function() {
-//     console.log('ready')
-// })
 
 React.renderComponent(Demo(), document.querySelectorAll('#container')[0])
