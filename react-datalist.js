@@ -5,7 +5,12 @@ var React = require('react')
 var ReactDatalistOption = React.createClass({
     render : function() {
         var classes = this.props.selected ? ['react-datalist-option', 'react-datalist-option-selected'] : ['react-datalist-option']
-        return (
+        return this.props.useNative ? (
+            React.DOM.option
+            ({ 
+                value : this.props.option 
+            })
+        ) : (
             React.DOM.div
             ({
                 className : classes.join(' '),
@@ -23,24 +28,28 @@ var ReactDatalistOption = React.createClass({
 var ReactDatalist = React.createClass({
     render : function() {
         var options = this.props.options.map(function(option, index) {
-            return this.props.useNative ? React.DOM.option({ value:option }) : ReactDatalistOption({
-                option   : option, 
-                index    : index,
-                selected : (this.props.selected === index),
-                select   : this.props.select
+            return ReactDatalistOption({
+                option    : option, 
+                index     : index,
+                useNative : this.props.useNative,
+                selected  : (this.props.selected === index),
+                select    : this.props.select
             })
         }.bind(this))
         var containerStyle = {}
         if (!this.props.support) {
             if (this.props.hide) containerStyle.display = 'none'
             else if (this.props.options.length == 0) containerStyle.display = 'none'
-            // else if (this.props.options.length == 1 && this.props.options[0] == this.props.filter) containerStyle.display = 'none'
             else containerStyle.display = 'block'
         }
-        var Node = this.props.useNative ? React.DOM.datalist : React.DOM.div
-        return (
-            Node
+        return this.props.useNative ? (
+            React.DOM.datalist
             ({
+                id        : this.props.id,
+                className : "react-datalist"
+            }, options)
+        ) : (
+            React.DOM.div({
                 id        : this.props.id,
                 className : "react-datalist",
                 style     : containerStyle
@@ -67,7 +76,8 @@ var container = React.createClass({
                     onBlur    : this.handleInputBlur,
                     onClick   : this.handleInputClick,
                     onChange  : this.handleInputChange,
-                    onKeyDown : this.handleInputKeyDown
+                    onKeyDown : this.handleInputKeyDown,
+                    onInput   : this.handleInputInput
                 }),
                 ReactDatalist
                 ({
@@ -111,7 +121,7 @@ var container = React.createClass({
             filter  : event.target.value,
             hide    : false
         })
-        if (typeof this.props.onChange === 'function') this.props.onChange(event)
+        if (typeof this.props.onInputChange === 'function') this.props.onInputChange(event)
     },
     handleInputKeyDown : function(event) {
         switch(event.which) {
@@ -144,6 +154,14 @@ var container = React.createClass({
                 this.selectOption(this.state.selected)
                 break
         }
+    },
+    handleInputInput : function(event) {
+        if (!this.useNative()) return
+        var selected_option;
+        this.props.options.forEach(function(option, index) {
+            if(option === event.target.value) selected_option = index;
+        })
+        if (selected_option) this.selectOption(selected_option)
     },
     filterOptions : function(options, filter, support) {
         if (support)        return options
