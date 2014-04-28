@@ -216,4 +216,23 @@ describe('DATALIST', function() {
         })
     })
 
+    it('Can autoposition itself', function() {
+        setInputValue('p')
+        var domlist  = nanodom('.react-datalist')[0]
+        var style    = window.getComputedStyle(domlist)
+        var position = style.getPropertyValue('position')
+        assert(position == 'absolute')
+        // var blur = function(event) {
+        //     assert(true)
+        //     render(defaultOptions, function() {
+        //         done()
+        //     })
+        // }
+        // var opts = merge(defaultOptions, { autoPosition : false })
+        // render(opts, function() {
+        //     var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+        //     ReactTestUtils.Simulate.blur(_input)
+        // })
+    })
+
 })

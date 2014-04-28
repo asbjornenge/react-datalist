@@ -70,6 +70,7 @@ var container = React.createClass({
             },[
                 React.DOM.input
                 ({
+                    ref       : "theInput",
                     className : "react-datalist-input",
                     list      : this.props.list,
                     value     : this.state.filter,
@@ -81,6 +82,7 @@ var container = React.createClass({
                 }),
                 ReactDatalist
                 ({
+                    ref       : "theDatalist",
                     id        : this.props.list,
                     hide      : this.state.hide,
                     filter    : this.state.filter,
@@ -176,6 +178,32 @@ var container = React.createClass({
         var _native = this.state.support
         if (this.props.forcePoly) _native = false
         return _native
+    },
+    componentDidMount : function() {
+        if (this.useNative()) return
+        if (this.props.autoPosition === false) return
+
+        /** POSITION **/
+
+        setTimeout(function() {
+            var _input    = this.refs.theInput.getDOMNode()
+            var _datalist = this.refs.theDatalist.getDOMNode()
+            var pos       = this.findPos(_input)
+
+            _datalist.style.position = 'absolute'
+            _datalist.style.top      = pos[0] + _input.offsetHeight
+            _datalist.style.left     = pos[1]
+            _datalist.style.width    = (_input.offsetWidth - 2) + 'px'            
+        }.bind(this),50)
+
+    },
+    findPos : function(element) {
+      if (element) {
+        var parentPos = this.findPos(element.offsetParent);
+        return [ parentPos[0] + element.offsetTop, parentPos[1] + element.offsetLeft]
+      } else {
+        return [0,0];
+      }
     }
 })
 
