@@ -78,6 +78,7 @@ var container = React.createClass({
                     onClick   : this.handleInputClick,
                     onChange  : this.handleInputChange,
                     onKeyDown : this.handleInputKeyDown,
+                    onKeyUp   : this.handleInputKeyUp,
                     onInput   : this.handleInputInput
                 }),
                 ReactDatalist
@@ -136,6 +137,15 @@ var container = React.createClass({
                 var newSelectedIndex = this.state.selected > 0 ? this.state.selected - 1 : 0
                 this.setState({selected : newSelectedIndex})
                 break
+            case 13:
+                // ENTER
+                if (typeof this.state.selected === 'number') { this.selectFilteredOption(this.state.selected) }
+                else { this.selectOption(event.target.value) }
+                break
+        }
+    },
+    handleInputKeyUp : function(event) {
+        switch(event.which) {
             case 27:
                 // ESC
                 this.setState({
@@ -143,11 +153,6 @@ var container = React.createClass({
                     hide     : true,
                     filter   : this.state.hide ? "" : this.state.filter
                 })
-                break
-            case 13:
-                // ENTER
-                if (typeof this.state.selected === 'number') { this.selectFilteredOption(this.state.selected) }
-                else { this.selectOption(event.target.value) }
                 break
         }
     },

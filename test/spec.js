@@ -149,13 +149,13 @@ describe('DATALIST', function() {
         __datalist = nanodom('.react-datalist')[0]
         assert(__datalist.childNodes.length == 3)
         // ESC to hide the options
-        ReactTestUtils.Simulate.keyDown(_input, {which: 27, type: "keydown"})
+        ReactTestUtils.Simulate.keyUp(_input, {which: 27, type: "keyup"})
         __datalist = nanodom('.react-datalist')[0]
         __input    = nanodom('.react-datalist-input')[0]
         assert(__datalist.style._values.display === 'none')
         assert(__input.value === 'p')
         // ESC again to clear filter
-        ReactTestUtils.Simulate.keyDown(_input, {which: 27, type: "keydown"})
+        ReactTestUtils.Simulate.keyUp(_input, {which: 27, type: "keyup"})
         __datalist = nanodom('.react-datalist')[0]
         __input    = nanodom('.react-datalist-input')[0]
         assert(__datalist.style._values.display === 'none')
