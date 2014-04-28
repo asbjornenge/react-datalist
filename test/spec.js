@@ -7,9 +7,14 @@ var ReactAddons    = require('react/addons')
 
 var ReactTestUtils = React.addons.TestUtils
 
+/** VARIABLES **/
+
 var options        = ['apple','orange','pear','pineapple','melon']
-var defaultOptions = {options:options, list:'fruit', forcePoly:true, forceReset:true, filter:''}
+var defaultOptions = {options:options, list:'fruit', forcePoly:true}
 var _datalist;
+
+/** HELPER FUNCTIONS **/
+
 function render(options, callback) {
     _datalist = React.renderComponent(datalist(options), nanodom('#container')[0], callback)
 }
@@ -19,6 +24,18 @@ function merge(obj1, obj2) {
     for (var attrname in obj2) { obj3[attrname] = obj2[attrname] }
     return obj3
 }
+function setInputValue(value) {
+     var __input   = nanodom('.react-datalist-input')[0]
+     var _input    = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+     __input.value = value
+    ReactTestUtils.Simulate.change(_input)
+}
+function clickOption(index) {
+    var _options = ReactTestUtils.scryRenderedDOMComponentsWithClass(_datalist, 'react-datalist-option')
+    ReactTestUtils.Simulate.click(_options[index])
+}
+
+/** TESTS **/
 
 describe('DATALIST', function() {
 
@@ -49,82 +66,68 @@ describe('DATALIST', function() {
         assert(filtered.length === 1)
     })
 
-    it('Should render a datalist with the passed options', function(done) {
+    it('Should render a datalist with the passed options', function() {
         var domlist = nanodom('.react-datalist')
         assert(domlist.length == 1)
         assert(domlist[0].childNodes.length == options.length)
         assert(domlist[0].id == 'fruit')
-        done()
     })
 
-    it('Passing hideOptions should hide options no matter what', function(done) {
-        var opts = merge(defaultOptions, { hideOptions : true })
-        render(opts, function() {
-            var domlist = nanodom('.react-datalist')[0]
-            assert(domlist.childNodes.length == options.length)
-            assert(domlist.style._values.display === 'none')
-            done()
-        })
-    })
-
-    it('Should filter options should change when the input value changes', function(done) {
-        render(defaultOptions, function() {
-            var __datalist = nanodom('.react-datalist')[0]
-            var __input    = nanodom('.react-datalist-input')[0]
-            var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
-            assert(__datalist.childNodes.length == options.length)
-            __input.value = "melon"
-            ReactTestUtils.Simulate.change(_input)
-            assert(__datalist.childNodes.length == 1)
-            done()
-        })
+    it('Filter options should change when the input value changes', function() {
+        var __datalist = nanodom('.react-datalist')[0]
+        setInputValue('')
+        assert(__datalist.childNodes.length == options.length)
+        setInputValue('melon')
+        assert(__datalist.childNodes.length == 1)
     })
 
     it('Should call its callback', function(done) {
         var onInputChange = function(event) {
             assert(true)
-            done()
+            // Additional render here to reset options
+            render(defaultOptions, function() {
+                done()
+            })
         }
         var opts = merge(defaultOptions, {onInputChange:onInputChange})
         render(opts, function() {
-            var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
-            ReactTestUtils.Simulate.change(_input)
+            setInputValue('p')
         })
     })
 
-    it('Can navigate options with arrow keys', function(done) {
-        var opts = merge(defaultOptions, {filter:''})
-        render(opts, function() {
-            var __datalist = nanodom('.react-datalist')[0]
-            var __input    = nanodom('.react-datalist-input')[0]
-            var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
-            assert(__datalist.childNodes.length == options.length)
-            // Down to first item
-            ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
-            var __option = nanodom('.react-datalist-option-selected')
-            assert(__option.length == 1)
-            assert(__option[0].innerHTML == options[0])
-            // Down to second item
-            ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
-            var __option = nanodom('.react-datalist-option-selected')
-            assert(__option.length == 1)
-            assert(__option[0].innerHTML == options[1])
-            // Up to first item
-            ReactTestUtils.Simulate.keyDown(_input, {which: 38, type: "keydown"})
-            var __option = nanodom('.react-datalist-option-selected')
-            assert(__option.length == 1)
-            assert(__option[0].innerHTML == options[0])
-            done()
-        })
+    it('Can navigate options with arrow keys', function() {
+        setInputValue('')
+        var __datalist = nanodom('.react-datalist')[0]
+        var __input    = nanodom('.react-datalist-input')[0]
+        var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+        assert(__datalist.childNodes.length == options.length)
+        // Down to first item
+        ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
+        var __option = nanodom('.react-datalist-option-selected')
+        assert(__option.length == 1)
+        assert(__option[0].innerHTML == options[0])
+        // Down to second item
+        ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
+        var __option = nanodom('.react-datalist-option-selected')
+        assert(__option.length == 1)
+        assert(__option[0].innerHTML == options[1])
+        // Up to first item
+        ReactTestUtils.Simulate.keyDown(_input, {which: 38, type: "keydown"})
+        var __option = nanodom('.react-datalist-option-selected')
+        assert(__option.length == 1)
+        assert(__option[0].innerHTML == options[0])
     })
 
     it('Can select an option by hitting enter', function(done) {
-        var selected = function(option) {
+        var onOptionSelected = function(option) {
             assert(option == options[0])
-            done()
+            render(defaultOptions, function() {
+                done()
+            })
         }
-        var opts = merge(defaultOptions, {filter:'', selected:false, onOptionSelected:selected})
+        var opts = merge(defaultOptions, {onOptionSelected:onOptionSelected})
         render(opts, function() {
+            setInputValue('')
             var __datalist = nanodom('.react-datalist')[0]
             var __input    = nanodom('.react-datalist-input')[0]
             var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
@@ -139,76 +142,72 @@ describe('DATALIST', function() {
     })
 
     it('Can hide the options by pressing ESC', function(done) {
-        var opts = merge(defaultOptions, {filter:'p'})
-        render(opts, function() {
-            var __datalist, __input, _input;
-            _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
-            ReactTestUtils.Simulate.change(_input)
-            __datalist = nanodom('.react-datalist')[0]
-            assert(__datalist.childNodes.length == 3)
-            // ESC to hide the options
-            ReactTestUtils.Simulate.keyDown(_input, {which: 27, type: "keydown"})
-            __datalist = nanodom('.react-datalist')[0]
-            __input    = nanodom('.react-datalist-input')[0]
-            assert(__datalist.style._values.display === 'none')
-            assert(__input.value === 'p')
-            // ESC again to clear filter
-            ReactTestUtils.Simulate.keyDown(_input, {which: 27, type: "keydown"})
-            __datalist = nanodom('.react-datalist')[0]
-            __input    = nanodom('.react-datalist-input')[0]
-            assert(__datalist.style._values.display === 'none')
-            assert(__input.value === '')
-            done()
-        })
+        setInputValue('p')
+        var __datalist, __input, _input;
+        _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+        ReactTestUtils.Simulate.change(_input)
+        __datalist = nanodom('.react-datalist')[0]
+        assert(__datalist.childNodes.length == 3)
+        // ESC to hide the options
+        ReactTestUtils.Simulate.keyDown(_input, {which: 27, type: "keydown"})
+        __datalist = nanodom('.react-datalist')[0]
+        __input    = nanodom('.react-datalist-input')[0]
+        assert(__datalist.style._values.display === 'none')
+        assert(__input.value === 'p')
+        // ESC again to clear filter
+        ReactTestUtils.Simulate.keyDown(_input, {which: 27, type: "keydown"})
+        __datalist = nanodom('.react-datalist')[0]
+        __input    = nanodom('.react-datalist-input')[0]
+        assert(__datalist.style._values.display === 'none')
+        assert(__input.value === '')
+        done()
     })
 
     it('Will select an option if you click it', function(done) {
-        var selected = function(option) {
+        var onOptionSelected = function(option) {
             assert(option == options[3])
-            done()
+            render(defaultOptions, function() {
+                done()
+            })
         }
-        var opts = merge(defaultOptions, {filter:'', onOptionSelected:selected})
+        var opts = merge(defaultOptions, {filter:'', onOptionSelected:onOptionSelected})
         render(opts, function() {
-            var _options = ReactTestUtils.scryRenderedDOMComponentsWithClass(_datalist, 'react-datalist-option')
-            ReactTestUtils.Simulate.click(_options[3])
+            clickOption(3)
         })
     })
 
-    it('Will releveal the available options if the input field is clicked', function(done) {
-        var opts = merge(defaultOptions, { hideOptions:true })
-        render(opts, function() {
-            var domlist = nanodom('.react-datalist')[0]
-            assert(domlist.style._values.display === 'none')
-            var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
-            ReactTestUtils.Simulate.click(_input)
-            var domlist = nanodom('.react-datalist')[0]
-            assert(domlist.style._values.display === 'block')
-            done()
-        })
+    it('Will releveal the available options if the input field is clicked', function() {
+        clickOption(0)
+        var domlist = nanodom('.react-datalist')[0]
+        assert(domlist.style._values.display === 'none')
+        var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+        ReactTestUtils.Simulate.click(_input)
+        var domlist = nanodom('.react-datalist')[0]
+        assert(domlist.style._values.display === 'block')
     })
 
     it('Will hide the options on input blur', function(done) {
-        var opts = merge(defaultOptions, { filter:'m'})
-        render(opts, function() {
+        setInputValue('melon')
+        var domlist = nanodom('.react-datalist')[0]
+        assert(domlist.childNodes.length == 1)
+        assert(domlist.style._values.display === 'block')
+        var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+        ReactTestUtils.Simulate.blur(_input)
+        // The options hang for 10ms so that click works properly
+        setTimeout(function() {
             var domlist = nanodom('.react-datalist')[0]
             assert(domlist.childNodes.length == 1)
-            assert(domlist.style._values.display === 'block')
-            var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
-            ReactTestUtils.Simulate.blur(_input)
-            // The options hang for 10ms so that click works properly
-            setTimeout(function() {
-                var domlist = nanodom('.react-datalist')[0]
-                assert(domlist.childNodes.length == 1)
-                assert(domlist.style._values.display === 'none')
-                done()                
-            },20)
-        })
+            assert(domlist.style._values.display === 'none')
+            done()
+        },20)
     })
 
     it('Will expose the input blur event', function(done) {
         var blur = function(event) {
             assert(true)
-            done()
+            render(defaultOptions, function() {
+                done()
+            })
         }
         var opts = merge(defaultOptions, { onInputBlur : blur })
         render(opts, function() {

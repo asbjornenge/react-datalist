@@ -85,7 +85,7 @@ var container = React.createClass({
                     hide      : this.state.hide,
                     filter    : this.state.filter,
                     selected  : this.state.selected,
-                    select    : this.selectOption,
+                    select    : this.selectFilteredOption,
                     useNative : this.useNative(),
                     options   : options
                 })
@@ -94,19 +94,11 @@ var container = React.createClass({
     },
     getInitialState : function() {
         return {
-            filter   : this.props.filter      || '',
-            hide     : this.props.hideOptions || true,
+            filter   : '',
+            hide     : true,
             selected : false,
             support  : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
         }
-    },
-    componentWillReceiveProps : function(_new) {
-        if (!_new.forceReset) return
-        this.setState({
-            hide     : (typeof _new.hideOptions !== 'undefined') ? _new.hideOptions : this.state.hide,
-            filter   : (typeof _new.filter === 'string')         ? _new.filter      : this.state.filter,
-            selected : (typeof _new.selected !== 'undefined')    ? _new.selected    : this.state.selected
-        })
     },
     handleInputBlur : function(event) {
         setTimeout(function() {
@@ -119,8 +111,9 @@ var container = React.createClass({
     },
     handleInputChange : function(event) {
         this.setState({ 
-            filter  : event.target.value,
-            hide    : false
+            filter   : event.target.value,
+            selected : false,
+            hide     : false
         })
         if (typeof this.props.onInputChange === 'function') this.props.onInputChange(event)
     },
@@ -151,18 +144,10 @@ var container = React.createClass({
                 break
             case 13:
                 // ENTER
-                if (this.state.selected === false) return
-                this.selectOption(this.state.selected)
+                if (typeof this.state.selected === 'number') { this.selectFilteredOption(this.state.selected) }
+                else { this.selectOption(event.target.value) }
                 break
         }
-    },
-    handleInputInput : function(event) {
-        if (!this.useNative()) return
-        var selected_option;
-        this.props.options.forEach(function(option, index) {
-            if(option === event.target.value) selected_option = index;
-        })
-        if (selected_option) this.selectOption(selected_option)
     },
     filterOptions : function(options, filter, support) {
         if (support)        return options
@@ -173,8 +158,13 @@ var container = React.createClass({
             return option.toLowerCase().indexOf(filter.toLowerCase()) >= 0
         })
     },
-    selectOption : function(index) {
-        var selected_option = this.filterOptions(this.props.options, this.state.filter, this.useNative())[index]
+    selectFilteredOption : function(index) {
+        this.selectOption(this.filterOptions(this.props.options, this.state.filter, this.useNative())[index])
+    },
+    selectOption : function(value) {
+        var selected_option;
+        this.props.options.forEach(function(option, index) { if(option.toLowerCase() === value.toLowerCase()) selected_option = option })
+        if (typeof selected_option === 'undefined') return
         if (typeof this.props.onOptionSelected === 'function') this.props.onOptionSelected(selected_option)
         this.setState({
             filter   : selected_option,
