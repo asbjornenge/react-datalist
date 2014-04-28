@@ -24,15 +24,21 @@
   "homepage": "https://github.com/asbjornenge/react-datalist",
   "dependencies": {
     "envify": "^1.2.1",
-    "nanodom": "0.0.3",
     "react": "^0.10.0"
   },
   "devDependencies": {
     "css-loader": "^0.6.12",
+    "gulp": "^3.6.2",
+    "gulp-rename": "^1.2.0",
+    "gulp-size": "^0.3.0",
+    "gulp-uglify": "^0.2.1",
+    "gulp-util": "^2.2.14",
     "jsdom": "^0.10.5",
     "mocha": "^1.18.2",
+    "nanodom": "0.0.3",
     "node-jsx": "^0.10.0",
     "style-loader": "^0.6.3",
-    "stylus-loader": "^0.2.0"
+    "stylus-loader": "^0.2.0",
+    "webpack": "^1.1.8"
   }
 }
