@@ -38,14 +38,25 @@ var NativeSwitch = React.createClass({
 
 var MessageBox = React.createClass({
     render : function() {
-        var info, error;
-        if (this.props.info  != '') info  = React.DOM.div({className:'info-message'},  this.props.info)
-        if (this.props.error != '') error = React.DOM.div({className:'error-message'}, this.props.error)
+        var selectedOption, error, info_img;
+        if (this.props.selectedOption != undefined) {
+            selectedOption = React.DOM.div
+            ({
+                className:'info-message'
+            }, 
+            [
+                React.DOM.span({className:'intro'}, 'Your favorite is...'), 
+                React.DOM.span({className:'choice'}, this.props.selectedOption),
+                React.DOM.img({src:'http://gifs.joelglovier.com/excited/thumbs-up.gif'}),
+                React.DOM.span({className:'advice'}, 'Good choice!')
+            ])
+        }
+        if (this.props.error != undefined) error = React.DOM.div({className:'error-message'}, this.props.error)
         return (
             React.DOM.div({
                 className : 'message-box'
             },[
-                info,
+                selectedOption,
                 error
             ])
         )
@@ -54,8 +65,6 @@ var MessageBox = React.createClass({
 
 var Demo = React.createClass({
     render : function() {
-        var infoMessage, errorMessage;
-        if (this.state.selectedOption) infoMessage = 'You choose ' + this.state.selectedOption + '. Good job!'
         if (!this.state.support && !this.state.forcePoly) errorMessage = 'Your browser does not support the native datalist :-( No worries, react-datalist got your back.'
         return (
             React.DOM.div(null, [
@@ -67,31 +76,30 @@ var Demo = React.createClass({
                     forcePoly        : this.state.forcePoly,
                     onOptionSelected : this.onOptionSelected
                 }),
-                MessageBox({ info : infoMessage, error : errorMessage })
+                MessageBox({
+                    selectedOption : this.state.selectedOption, 
+                    conflicted     : !this.state.support && !this.state.forcePoly
+                })
             ])
         )
     },
     getInitialState : function() {
         return { 
             forcePoly      : true,
-            selectedOption : '',
             support        : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
         }
     },
     handleNativeRequest : function(native) {
         this.setState({ 
-            forcePoly : !native,
-            filter    : ''
+            forcePoly      : !native,
+            filter         : '',
+            selectedOption : undefined
         })
     },
     onOptionSelected : function(option) {
         this.setState({ 
             selectedOption : option
         })
-        clearTimeout(this.optionSelectedTimeout)
-        this.optionSelectedTimeout = setTimeout(function() {
-            this.setState({selectedOption : ''})
-        }.bind(this), 3000)
     }
 })
 
