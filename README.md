@@ -23,6 +23,7 @@ Check out the [**DEMO**](http://www.asbjornenge.com/react-datalist/)
 	* list             - <datalist id="list"> and <input list="list">
 	* options          - the available options
 	* forcePoly        - always use the polyfill
+	* initialFilter    - set the initial input value
 	* onOptionSelected - callback triggered when option is considered selected
 
 ## !TLDR;
