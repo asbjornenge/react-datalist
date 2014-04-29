@@ -20,11 +20,14 @@ Check out the [**DEMO**](http://www.asbjornenge.com/react-datalist/)
 
 ## Props
 
-	* list             - <datalist id="list"> and <input list="list">
-	* options          - the available options
-	* forcePoly        - always use the polyfill
-	* initialFilter    - set the initial input value
-	* onOptionSelected - callback triggered when option is considered selected
+	list            * - <datalist id="list"> and <input list="list">
+	options         * - the available options
+	forcePoly         - always use the polyfill                  (default false)
+	autoPosition      - automatically position the options list  (default true)
+	initialFilter     - set the initial input value              (default '')
+	onOptionSelected  - callback triggered when option is considered selected
+	
+	* = required
 
 ## !TLDR;
 
