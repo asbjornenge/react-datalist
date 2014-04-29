@@ -64,6 +64,14 @@ The module itself does not make us of **JSX** as not to impose restrictions on t
 
 For a full feature list check out the [spec](https://github.com/asbjornenge/react-datalist/blob/master/test/spec.js).
 
-Uhm, yeah. Thats it really!
+## Changelog
+
+### 0.1.0
+
+* Added support for passing initial input value via the ***initialFilter*** property.
+
+### 0.0.1
+
+* Initial release! YaY :-D
 
 enjoy.

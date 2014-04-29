@@ -40,7 +40,7 @@ function clickOption(index) {
 describe('DATALIST', function() {
 
     before(function(done) {
-        render(defaultOptions, function() {
+        render(merge(defaultOptions, {initialFilter:'meh'}), function() {
             done()
         })
     })
@@ -66,7 +66,13 @@ describe('DATALIST', function() {
         assert(filtered.length === 1)
     })
 
+    it('Should support setting initial input value throught initialFilter property', function() {
+        var __input = nanodom('.react-datalist-input')[0]
+        assert(__input.value === 'meh')
+    })
+
     it('Should render a datalist with the passed options', function() {
+        setInputValue('')
         var domlist = nanodom('.react-datalist')
         assert(domlist.length == 1)
         assert(domlist[0].childNodes.length == options.length)

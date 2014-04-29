@@ -97,7 +97,7 @@ var container = React.createClass({
     },
     getInitialState : function() {
         return {
-            filter   : '',
+            filter   : this.props.initialFilter || '',
             hide     : true,
             selected : false,
             support  : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
