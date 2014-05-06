@@ -70,16 +70,17 @@ var container = React.createClass({
             },[
                 React.DOM.input
                 ({
-                    ref       : "theInput",
-                    className : "react-datalist-input",
-                    list      : this.props.list,
-                    value     : this.state.filter,
-                    onBlur    : this.handleInputBlur,
-                    onClick   : this.handleInputClick,
-                    onChange  : this.handleInputChange,
-                    onKeyDown : this.handleInputKeyDown,
-                    onKeyUp   : this.handleInputKeyUp,
-                    onInput   : this.handleInputInput
+                    ref         : "theInput",
+                    className   : "react-datalist-input",
+                    list        : this.props.list,
+                    placeholder : this.props.placeholder,
+                    value       : this.state.filter,
+                    onBlur      : this.handleInputBlur,
+                    onClick     : this.handleInputClick,
+                    onChange    : this.handleInputChange,
+                    onKeyDown   : this.handleInputKeyDown,
+                    onKeyUp     : this.handleInputKeyUp,
+                    onInput     : this.handleInputInput
                 }),
                 ReactDatalist
                 ({
@@ -106,7 +107,7 @@ var container = React.createClass({
     handleInputBlur : function(event) {
         setTimeout(function() {
             this.setState({ hide : true })
-        }.bind(this),10)
+        }.bind(this),100)
         if (typeof this.props.onInputBlur === 'function') this.props.onInputBlur(event)
     },
     handleInputClick : function(event) {

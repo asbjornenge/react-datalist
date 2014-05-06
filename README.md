@@ -22,6 +22,7 @@ Check out the [**DEMO**](http://www.asbjornenge.com/react-datalist/)
 
 	list            * - <datalist id="list"> and <input list="list">
 	options         * - the available options
+	placeholder       - a placeholder for the input field
 	forcePoly         - always use the polyfill                  (default false)
 	autoPosition      - automatically position the options list  (default true)
 	initialFilter     - set the initial input value              (default '')
@@ -69,6 +70,11 @@ The module itself does not make us of **JSX** as not to impose restrictions on t
 For a full feature list check out the [spec](https://github.com/asbjornenge/react-datalist/blob/master/test/spec.js).
 
 ## Changelog
+
+### 0.1.1
+
+* Increased hide-options timeout on blur (more time to make click register)
+* Supporting placeholder property for input
 
 ### 0.1.0
 

@@ -40,7 +40,7 @@ function clickOption(index) {
 describe('DATALIST', function() {
 
     before(function(done) {
-        render(merge(defaultOptions, {initialFilter:'meh'}), function() {
+        render(merge(defaultOptions, {initialFilter:'meh', placeholder:'Choose project'}), function() {
             done()
         })
     })
@@ -205,7 +205,7 @@ describe('DATALIST', function() {
             assert(domlist.childNodes.length == 1)
             assert(domlist.style._values.display === 'none')
             done()
-        },20)
+        },120)
     })
 
     it('Will expose the input blur event', function(done) {
@@ -228,17 +228,12 @@ describe('DATALIST', function() {
         var style    = window.getComputedStyle(domlist)
         var position = style.getPropertyValue('position')
         assert(position == 'absolute')
-        // var blur = function(event) {
-        //     assert(true)
-        //     render(defaultOptions, function() {
-        //         done()
-        //     })
-        // }
-        // var opts = merge(defaultOptions, { autoPosition : false })
-        // render(opts, function() {
-        //     var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
-        //     ReactTestUtils.Simulate.blur(_input)
-        // })
+    })
+
+
+    it('Can take a placeholder property for the input', function() {
+        var __input = nanodom('.react-datalist-input')[0]
+        assert(__input.attributes.placeholder.value === 'Choose project')
     })
 
 })
