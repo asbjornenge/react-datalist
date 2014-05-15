@@ -71,6 +71,10 @@ For a full feature list check out the [spec](https://github.com/asbjornenge/reac
 
 ## Changelog
 
+### 0.1.2
+
+* Minor improvement to help testing (test are too fast for my timeouts :-P)
+
 ### 0.1.1
 
 * Increased hide-options timeout on blur (more time to make click register)

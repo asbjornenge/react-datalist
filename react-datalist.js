@@ -192,6 +192,7 @@ var container = React.createClass({
         /** POSITION **/
 
         setTimeout(function() {
+            if (this.refs.theInput == undefined) return // <- Tests are too fast!
             var _input    = this.refs.theInput.getDOMNode()
             var _datalist = this.refs.theDatalist.getDOMNode()
             var pos       = this.findPos(_input)
