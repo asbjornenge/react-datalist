@@ -78,6 +78,10 @@ For a full feature list check out the [spec](https://github.com/asbjornenge/reac
 
 ## Changelog
 
+### 0.2.0
+
+* Added support for externally controlling the filter state via the ***setFilter*** property.
+
 ### 0.1.2
 
 * Minor improvement to help testing (test are too fast for my timeouts :-P)
