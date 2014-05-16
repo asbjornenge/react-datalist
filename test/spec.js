@@ -9,8 +9,10 @@ var ReactTestUtils = React.addons.TestUtils
 
 /** VARIABLES **/
 
+var filterSetter;
+var setFilter      = function(fn) { filterSetter = fn }
 var options        = ['apple','orange','pear','pineapple','melon']
-var defaultOptions = {options:options, list:'fruit', forcePoly:true}
+var defaultOptions = {options:options, list:'fruit', forcePoly:true, setFilter:setFilter}
 var _datalist;
 
 /** HELPER FUNCTIONS **/
@@ -234,6 +236,13 @@ describe('DATALIST', function() {
     it('Can take a placeholder property for the input', function() {
         var __input = nanodom('.react-datalist-input')[0]
         assert(__input.attributes.placeholder.value === 'Choose project')
+    })
+
+    it('Has facitilies for controlling the input state externally', function() {
+        var __input = nanodom('.react-datalist-input')[0]
+        assert(__input.value != 'poop')
+        filterSetter('poop')
+        assert(__input.value == 'poop')
     })
 
 })

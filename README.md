@@ -27,8 +27,15 @@ Check out the [**DEMO**](http://www.asbjornenge.com/react-datalist/)
 	autoPosition      - automatically position the options list  (default true)
 	initialFilter     - set the initial input value              (default '')
 	onOptionSelected  - callback triggered when option is considered selected
+	setFilter         - a function that can be used to control the filter/input value
 	
 	* = required
+
+### setFilter
+
+The setFilter property is there to enable external control of the filter state (the input value). It takes a function that will be called with another function. This latter function can be used to set the filter value.
+
+    setFilter : function(fn) { fn('New value') }
 
 ## !TLDR;
 

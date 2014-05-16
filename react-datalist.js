@@ -185,6 +185,13 @@ var container = React.createClass({
         if (this.props.forcePoly) _native = false
         return _native
     },
+    componentWillMount : function() {
+        if (typeof this.props.setFilter === 'function') {
+            this.props.setFilter(function(value) {
+                this.setState({filter : value})
+            }.bind(this))
+        }
+    },
     componentDidMount : function() {
         if (this.useNative()) return
         if (this.props.autoPosition === false) return
