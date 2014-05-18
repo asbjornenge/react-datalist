@@ -14,7 +14,9 @@
   "keywords": [
     "browser",
     "datalist",
-    "dom"
+    "dom",
+    "react",
+    "react-component"
   ],
   "author": "Asbjorn Enge <asbjorn@hanafjedle.net>",
   "license": "BSD",
