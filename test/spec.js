@@ -167,13 +167,13 @@ describe('DATALIST', function() {
             ReactTestUtils.Simulate.keyUp(_input, {which: 27, type: "keyup"})
             __datalist = nanodom('.react-datalist')[0]
             __input    = nanodom('.react-datalist-input')[0]
-            assert(__datalist.style._values.display === 'none')
+            assert(__datalist.style.display === 'none')
             assert(__input.value === 'p')
             // ESC again to clear filter
             ReactTestUtils.Simulate.keyUp(_input, {which: 27, type: "keyup"})
             __datalist = nanodom('.react-datalist')[0]
             __input    = nanodom('.react-datalist-input')[0]
-            assert(__datalist.style._values.display === 'none')
+            assert(__datalist.style.display === 'none')
             assert(__input.value === '')
             done()
         })
@@ -193,11 +193,11 @@ describe('DATALIST', function() {
         var _datalist = render({}, function() {
             clickOption(_datalist, 0)
             var domlist = nanodom('.react-datalist')[0]
-            assert(domlist.style._values.display === 'none')
+            assert(domlist.style.display === 'none')
             var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
             ReactTestUtils.Simulate.click(_input)
             var domlist = nanodom('.react-datalist')[0]
-            assert(domlist.style._values.display === 'block')
+            assert(domlist.style.display === 'block')
             done()
         })
     })
@@ -207,14 +207,14 @@ describe('DATALIST', function() {
             setInputValue(_datalist, 'melon')
             var domlist = nanodom('.react-datalist')[0]
             assert(domlist.childNodes.length == 1)
-            assert(domlist.style._values.display === 'block')
+            assert(domlist.style.display === 'block')
             var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
             ReactTestUtils.Simulate.blur(_input)
             // The options hang for 10ms so that click works properly
             setTimeout(function() {
                 var domlist = nanodom('.react-datalist')[0]
                 assert(domlist.childNodes.length == 1)
-                assert(domlist.style._values.display === 'none')
+                assert(domlist.style.display === 'none')
                 done()
             },120)            
         })

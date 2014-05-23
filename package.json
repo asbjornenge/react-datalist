@@ -24,6 +24,23 @@
     "url": "https://github.com/asbjornenge/react-datalist/issues"
   },
   "homepage": "https://github.com/asbjornenge/react-datalist",
+  "browser" : {
+    "jsdom" : false
+  },
+  "testling": {
+    "harness": "mocha-bdd",
+    "files": "test/spec.js",
+    "browsers": [
+      "ie/9..latest",
+      "chrome/23..latest",
+      "firefox/22..latest",
+      "safari/latest",
+      "opera/12..latest",
+      "iphone/6",
+      "ipad/6",
+      "android-browser/latest"
+    ]
+  },
   "dependencies": {
     "envify": "^1.2.1",
     "react": "^0.10.0"
