@@ -1,5 +1,7 @@
 # React-datalist
 
+[![testling badge](https://ci.testling.com/asbjornenge/react-datalist.png)](https://ci.testling.com/asbjornenge/react-datalist)
+
 React-datalist is an attempt at making a [<code>\<datalist></code>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist) polyfill as a reusable [react](http://facebook.github.io/react/) module.  
 
 Feedback in the form of [issues](https://github.com/asbjornenge/react-datalist/issues) and [pull-requests](https://github.com/asbjornenge/react-datalist/pulls) is very much appreciated!
