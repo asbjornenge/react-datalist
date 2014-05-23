@@ -18,7 +18,7 @@ var defaultProps = {options:options, list:'fruit', forcePoly:true, setFilter:set
 /** HELPER FUNCTIONS **/
 
 function render(props, callback) {
-    return React.renderComponent(ReactDatalist(_.merge(defaultProps, props)), document.body, function() {
+    return React.renderComponent(ReactDatalist(_({}).merge(defaultProps).merge(props).__wrapped__), document.body, function() {
         if (typeof callback === 'function') setTimeout(callback)
     })
 }
@@ -109,51 +109,51 @@ describe('DATALIST', function() {
         })
     })
 
-    // it('Can navigate options with arrow keys', function() {
-    //     setInputValue('')
-    //     var __datalist = nanodom('.react-datalist')[0]
-    //     var __input    = nanodom('.react-datalist-input')[0]
-    //     var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
-    //     assert(__datalist.childNodes.length == options.length)
-    //     // Down to first item
-    //     ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
-    //     var __option = nanodom('.react-datalist-option-selected')
-    //     assert(__option.length == 1)
-    //     assert(__option[0].innerHTML == options[0])
-    //     // Down to second item
-    //     ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
-    //     var __option = nanodom('.react-datalist-option-selected')
-    //     assert(__option.length == 1)
-    //     assert(__option[0].innerHTML == options[1])
-    //     // Up to first item
-    //     ReactTestUtils.Simulate.keyDown(_input, {which: 38, type: "keydown"})
-    //     var __option = nanodom('.react-datalist-option-selected')
-    //     assert(__option.length == 1)
-    //     assert(__option[0].innerHTML == options[0])
-    // })
+    it('Can navigate options with arrow keys', function(done) {
+        var _datalist = render({}, function() {
+            setInputValue(_datalist, '')
+            var __datalist = nanodom('.react-datalist')[0]
+            var __input    = nanodom('.react-datalist-input')[0]
+            var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+            assert(__datalist.childNodes.length == options.length)
+            // Down to first item
+            ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
+            var __option = nanodom('.react-datalist-option-selected')
+            assert(__option.length == 1)
+            assert(__option[0].innerHTML == options[0])
+            // Down to second item
+            ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
+            var __option = nanodom('.react-datalist-option-selected')
+            assert(__option.length == 1)
+            assert(__option[0].innerHTML == options[1])
+            // Up to first item
+            ReactTestUtils.Simulate.keyDown(_input, {which: 38, type: "keydown"})
+            var __option = nanodom('.react-datalist-option-selected')
+            assert(__option.length == 1)
+            assert(__option[0].innerHTML == options[0])
+            done()
+        })
+    })
 
-    // it('Can select an option by hitting enter', function(done) {
-    //     var onOptionSelected = function(option) {
-    //         assert(option == options[0])
-    //         render(defaultOptions, function() {
-    //             done()
-    //         })
-    //     }
-    //     var opts = merge(defaultOptions, {onOptionSelected:onOptionSelected})
-    //     render(opts, function() {
-    //         setInputValue('')
-    //         var __datalist = nanodom('.react-datalist')[0]
-    //         var __input    = nanodom('.react-datalist-input')[0]
-    //         var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
-    //         assert(__datalist.childNodes.length == options.length)
-    //         // Down to an item
-    //         ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
-    //         var __option = nanodom('.react-datalist-option-selected')
-    //         assert(__option.length == 1)
-    //         // Enter to select it
-    //         ReactTestUtils.Simulate.keyDown(_input, {which: 13, type: "keydown"})
-    //     })
-    // })
+    it('Can select an option by hitting enter', function(done) {
+        var onOptionSelected = function(option) {
+            assert(option == options[0])
+            done()
+        }
+        var _datalist = render({ onOptionSelected : onOptionSelected }, function() {
+            setInputValue(_datalist, '')
+            var __datalist = nanodom('.react-datalist')[0]
+            var __input    = nanodom('.react-datalist-input')[0]
+            var _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+            assert(__datalist.childNodes.length == options.length)
+            // Down to an item
+            ReactTestUtils.Simulate.keyDown(_input, {which: 40, type: "keydown"})
+            var __option = nanodom('.react-datalist-option-selected')
+            assert(__option.length == 1)
+            // Enter to select it
+            ReactTestUtils.Simulate.keyDown(_input, {which: 13, type: "keydown"})
+        })
+    })
 
     // it('Can hide the options by pressing ESC', function(done) {
     //     setInputValue('p')
