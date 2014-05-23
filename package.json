@@ -4,7 +4,7 @@
   "description": "A <datalist> polyfill for reactjs",
   "main": "react-datalist.js",
   "scripts": {
-    "test": "mocha --ui bdd",
+    "test": "mocha -R nyan --check-leaks -w",
     "localtest": "mocha -R nyan --check-leaks -w"
   },
   "repository": {
@@ -36,6 +36,7 @@
     "gulp-uglify": "^0.2.1",
     "gulp-util": "^2.2.14",
     "jsdom": "^0.10.5",
+    "lodash": "^2.4.1",
     "mocha": "^1.18.2",
     "nanodom": "0.0.3",
     "node-jsx": "^0.10.0",
