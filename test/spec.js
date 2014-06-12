@@ -10,10 +10,10 @@ var ReactTestUtils = React.addons.TestUtils
 
 /** VARIABLES **/
 
-var filterSetter;
-var setFilter    = function(fn) { filterSetter = fn }
-var options      = ['apple','orange','pear','pineapple','melon']
-var defaultProps = {options:options, list:'fruit', forcePoly:true, setFilter:setFilter}
+var ReactDatalistController;
+var getController = function(controller) { ReactDatalistController = controller }
+var options       = ['apple','orange','pear','pineapple','melon']
+var defaultProps  = {options:options, list:'fruit', forcePoly:true, getController:getController}
 
 /** HELPER FUNCTIONS **/
 
@@ -258,14 +258,43 @@ describe('DATALIST', function() {
         })
     })
 
-    it('Has facitilies for controlling the input state externally', function(done) {
+    it('exposes a function for controlling the input state externally', function(done) {
         render({}, function() {
+            assert(ReactDatalistController != undefined)
             var __input = nanodom('.react-datalist-input')[0]
             assert(__input.value != 'poop')
-            filterSetter('poop')
+            ReactDatalistController.setFilter('poop')
             assert(__input.value == 'poop')
             done()
         })
+    })
+
+    it('exposes a function for toggling option visibility externally', function(done) {
+        render({}, function() {
+            assert(ReactDatalistController != undefined)
+            var __input = nanodom('.react-datalist-input')[0]
+            assert(__input.value != 'poop')
+            ReactDatalistController.setFilter('poop')
+            assert(__input.value == 'poop')
+            var __options = nanodom('.react-datalist-option')
+            assert(__options.length == 0)
+            ReactDatalistController.toggleOptions(function(shown) { 
+                assert(shown)
+                __input  = nanodom('.react-datalist-input')[0]
+                __options = nanodom('.react-datalist-option')
+                var __datalist = nanodom('.react-datalist')[0]
+                assert(__input.value == '')
+                assert(__options.length == options.length)
+                assert(__datalist.style.display == 'block')
+                ReactDatalistController.toggleOptions(function(shown) {
+                    assert(!shown)
+                    __datalist = nanodom('.react-datalist')[0]
+                    assert(__datalist.style.display == 'none')
+                    done()
+                })                
+            })
+        })
+
     })
 
 })
