@@ -188,8 +188,8 @@ var container = React.createClass({
     componentWillMount : function() {
         if (typeof this.props.getController === 'function') {
             this.props.getController({
-                setFilter     : function(value)    { this.setState({filter : value}) }.bind(this),
-                toggleOptions : function(callback) { var hide = !this.state.hide; this.setState({filter : '', hide : hide}, function() { if (typeof callback === 'function') callback(!hide) }) }.bind(this)
+                setFilter     : function(value,callback) { this.setState({filter : value}, callback) }.bind(this),
+                toggleOptions : function(callback)       { var hide = !this.state.hide; this.setState({filter : '', hide : hide}, function() { if (typeof callback === 'function') callback(!hide) }) }.bind(this)
             })
         }
     },
