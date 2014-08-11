@@ -89,6 +89,19 @@ For a full feature list check out the [spec](https://github.com/asbjornenge/reac
 
 ## Changelog
 
+### 1.1.0
+
+* Bumped the blurTimeout up to 200ms (people were having issues)
+* Added the ability to specify *blurTimeout* via props
+* Added *hideOptionsOnBlur* for the ability to opt out of hide-options-on-blur
+
+### 1.0.0
+
+* Removed setFilter support
+* Added a more generic getController prop that returns an object with functions for external control
+* Added setFilter to controller
+* Added toggleOptions to controller
+
 ### 0.2.0
 
 * Added support for externally controlling the filter state via the ***setFilter*** property.
