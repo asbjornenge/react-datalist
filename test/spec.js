@@ -14,6 +14,7 @@ var ReactDatalistController;
 var getController = function(controller) { ReactDatalistController = controller }
 var options       = ['apple','orange','pear','pineapple','melon']
 var defaultProps  = {options:options, list:'fruit', forcePoly:true, getController:getController}
+var blurTimeout   = 250
 
 /** HELPER FUNCTIONS **/
 
@@ -210,13 +211,29 @@ describe('DATALIST', function() {
             assert(domlist.style.display === 'block')
             var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
             ReactTestUtils.Simulate.blur(_input)
-            // The options hang for 10ms so that click works properly
             setTimeout(function() {
                 var domlist = nanodom('.react-datalist')[0]
                 assert(domlist.childNodes.length == 1)
                 assert(domlist.style.display === 'none')
                 done()
-            },120)            
+            },blurTimeout)
+        })
+    })
+
+    it('will NOT hide the options on input blur if hideOptionsOnInputBlur is false', function(done) {
+        var _datalist = render({hideOptionsOnBlur:false}, function() {
+            setInputValue(_datalist, 'melon')
+            var domlist = nanodom('.react-datalist')[0]
+            assert(domlist.childNodes.length == 1)
+            assert(domlist.style.display === 'block')
+            var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+            ReactTestUtils.Simulate.blur(_input)
+            setTimeout(function() {
+                var domlist = nanodom('.react-datalist')[0]
+                assert(domlist.childNodes.length == 1)
+                assert(domlist.style.display === 'block')
+                done()
+            },blurTimeout)
         })
     })
 
@@ -228,7 +245,7 @@ describe('DATALIST', function() {
             // and the test will crash.
             setTimeout(function() {
                 done()
-            }, 120)
+            }, blurTimeout)
         }
         var _datalist = render({ onInputBlur : blur }, function() {
             var _input = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
@@ -291,7 +308,7 @@ describe('DATALIST', function() {
                     __datalist = nanodom('.react-datalist')[0]
                     assert(__datalist.style.display == 'none')
                     done()
-                })                
+                })
             })
         })
 

@@ -25,9 +25,11 @@ Check out the [**DEMO**](http://www.asbjornenge.com/react-datalist/)
 	list            * - <datalist id="list"> and <input list="list">
 	options         * - the available options
 	placeholder       - a placeholder for the input field
-	forcePoly         - always use the polyfill                  (default false)
-	autoPosition      - automatically position the options list  (default true)
-	initialFilter     - set the initial input value              (default '')
+	forcePoly         - always use the polyfill                   (default false)
+	blurTimeout       - timeout after blur before hinding opts    (default 200ms)
+	autoPosition      - automatically position the options list   (default true)
+	initialFilter     - set the initial input value               (default '')
+	hideOptionsOnBlur - if options should be hidden on input blur (default true)
 	onOptionSelected  - callback triggered when option is considered selected
 	getController     - pass a function to collect a controller object (see below)
 	

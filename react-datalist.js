@@ -104,10 +104,18 @@ var container = React.createClass({
             support  : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
         }
     },
+    getDefaultProps : function() {
+        return {
+            blurTimeout : 200,
+            hideOptionsOnBlur : true
+        }
+    },
     handleInputBlur : function(event) {
-        setTimeout(function() {
-            this.setState({ hide : true })
-        }.bind(this),100)
+        if (this.props.hideOptionsOnBlur) {
+            setTimeout(function() {
+                this.setState({ hide : true })
+            }.bind(this),this.props.blurTimeout)
+        }
         if (typeof this.props.onInputBlur === 'function') this.props.onInputBlur(event)
     },
     handleInputClick : function(event) {
