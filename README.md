@@ -11,12 +11,12 @@ Check out the [**DEMO**](http://www.asbjornenge.com/react-datalist/)
 ## Install
 
 	npm install react-datalist
-	
+
 ## Use
 
 	var React = require('react')
 	var ReactDatalist = require('react-datalist')
-	
+
 	var options = ['apple','orange','pear','pineapple','melon']
 	React.renderComponent(ReactDatalist({list:'fruit', options:options}), document.body)
 
@@ -29,10 +29,11 @@ Check out the [**DEMO**](http://www.asbjornenge.com/react-datalist/)
 	blurTimeout       - timeout after blur before hinding opts    (default 200ms)
 	autoPosition      - automatically position the options list   (default true)
 	initialFilter     - set the initial input value               (default '')
-	hideOptionsOnBlur - if options should be hidden on input blur (default true)
+	hideOptionsOnEsc  - hide options on esc                       (default true)
+	hideOptionsOnBlur - hide options on input blur                (default true)
 	onOptionSelected  - callback triggered when option is considered selected
 	getController     - pass a function to collect a controller object (see below)
-	
+
 	* = required
 
 ### getController
@@ -43,10 +44,10 @@ The getController property is there to enable external control of the component'
 
 The controller offers the following
 
-	setFilter(string, callback)  - sets the value of the input
-	                               callback called when new state is set
-	toggleOptions(callback)      - toggle show/hide of all availale options
-	                               callback called when new state is set and returns a bool indicating if the options are shown or not
+	controller.setFilter(string, callback)  - sets the value of the input
+	controller.toggleOptions(callback)      - toggle show/hide of options. shown bool passed to callback.
+	controller.getState()                   - gets the current inner state
+	controller.setState(newState, callback) - set a new inner state
 
 ## !TLDR;
 
@@ -62,14 +63,14 @@ React-datalist includes both a ***input*** and a ***datalist*** element. In orde
 	</div>
 
 	// Polyfill
-	
+
 	<div class="react-datalist-container">
 		<input class="react-datalist-input">
 		<div class="react-datalist">
 			<div class="react-datalist-option">values</div>
 		</div>
 	</div>
-	
+
 If you need to interact with the input element, attach listeners like **onInputChange**, **onInputBlur**, etc. (Note to self: expose additional input events. Note to others: encourage by creating issues)
 
 #### Styling
@@ -88,6 +89,12 @@ The module itself does not make us of **JSX** as not to impose restrictions on t
 For a full feature list check out the [spec](https://github.com/asbjornenge/react-datalist/blob/master/test/spec.js).
 
 ## Changelog
+
+### 1.2.0
+
+* Added *hideOptionsOnEsc* for the ability to opt out of hiding options when user hits esc
+* Added *controller.getState* for a sneak peak at the inner state
+* Added *controller.setState* for improved external control
 
 ### 1.1.0
 

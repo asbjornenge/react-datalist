@@ -52,7 +52,7 @@ describe('DATALIST', function() {
             assert(__container.length == 1)
             var __input = nanodom('.react-datalist-input')
             assert(__input.length == 1)
-            done()            
+            done()
         })
     })
 
@@ -66,7 +66,7 @@ describe('DATALIST', function() {
             assert(filtered.length === 3)
             filtered = _datalist.filterOptions(options, "lon")
             assert(filtered.length === 1)
-            done()            
+            done()
         })
     })
 
@@ -180,6 +180,30 @@ describe('DATALIST', function() {
         })
     })
 
+    it('will not hide the options by pressing ESC if hideOptionsOnEsc=false is sendt as prop', function(done) {
+        var _datalist = render({hideOptionsOnEsc:false}, function() {
+            setInputValue(_datalist, 'p')
+            var __datalist, __input, _input;
+            _input     = ReactTestUtils.findRenderedDOMComponentWithTag(_datalist, 'input')
+            ReactTestUtils.Simulate.change(_input)
+            __datalist = nanodom('.react-datalist')[0]
+            assert(__datalist.childNodes.length == 3)
+            // ESC to hide the options
+            ReactTestUtils.Simulate.keyUp(_input, {which: 27, type: "keyup"})
+            __datalist = nanodom('.react-datalist')[0]
+            __input    = nanodom('.react-datalist-input')[0]
+            assert(__datalist.style.display === 'block')
+            assert(__input.value === 'p')
+            // ESC again to clear filter
+            ReactTestUtils.Simulate.keyUp(_input, {which: 27, type: "keyup"})
+            __datalist = nanodom('.react-datalist')[0]
+            __input    = nanodom('.react-datalist-input')[0]
+            assert(__datalist.style.display === 'block')
+            assert(__input.value === 'p')
+            done()
+        })
+    })
+
     it('Will select an option if you click it', function(done) {
         var onOptionSelected = function(option) {
             assert(option == options[3])
@@ -271,7 +295,7 @@ describe('DATALIST', function() {
         render({ placeholder : 'Choose project' }, function() {
             var __input = nanodom('.react-datalist-input')[0]
             assert(__input.attributes.placeholder.value === 'Choose project')
-            done()            
+            done()
         })
     })
 
@@ -295,7 +319,7 @@ describe('DATALIST', function() {
             assert(__input.value == 'poop')
             var __options = nanodom('.react-datalist-option')
             assert(__options.length == 0)
-            ReactDatalistController.toggleOptions(function(shown) { 
+            ReactDatalistController.toggleOptions(function(shown) {
                 assert(shown)
                 __input  = nanodom('.react-datalist-input')[0]
                 __options = nanodom('.react-datalist-option')

@@ -106,8 +106,9 @@ var container = React.createClass({
     },
     getDefaultProps : function() {
         return {
-            blurTimeout : 200,
-            hideOptionsOnBlur : true
+            blurTimeout       : 200,
+            hideOptionsOnBlur : true,
+            hideOptionsOnEsc  : true
         }
     },
     handleInputBlur : function(event) {
@@ -154,6 +155,7 @@ var container = React.createClass({
         }
     },
     handleInputKeyUp : function(event) {
+        if (!this.props.hideOptionsOnEsc) return
         switch(event.which) {
             case 27:
                 // ESC
@@ -197,7 +199,14 @@ var container = React.createClass({
         if (typeof this.props.getController === 'function') {
             this.props.getController({
                 setFilter     : function(value,callback) { this.setState({filter : value}, callback) }.bind(this),
-                toggleOptions : function(callback)       { var hide = !this.state.hide; this.setState({filter : '', hide : hide}, function() { if (typeof callback === 'function') callback(!hide) }) }.bind(this)
+                toggleOptions : function(callback)       { var hide = !this.state.hide; this.setState({filter : '', hide : hide}, function() { if (typeof callback === 'function') callback(!hide) }) }.bind(this),
+                getState      : function()               { return {
+                    hide     : this.state.hide,
+                    filter   : this.state.filter,
+                    selected : this.state.selected,
+                    options  : this.filterOptions(this.props.options, this.state.filter, this.useNative())
+                }}.bind(this),
+                setState      : function(state,callback) { this.setState(state, callback) }.bind(this)
             })
         }
     },
