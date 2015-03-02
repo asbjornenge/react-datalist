@@ -63,6 +63,7 @@ var ReactDatalist = React.createClass({
 var container = React.createClass({
     render : function() {
         var options = this.filterOptions(this.props.options, this.state.filter, this.useNative())
+        var extraClasses = this.props.className? ' ' + this.props.className: '';
         return (
             React.DOM.div
             ({
@@ -71,7 +72,7 @@ var container = React.createClass({
                 React.DOM.input
                 ({
                     ref         : "theInput",
-                    className   : "react-datalist-input",
+                    className   : "react-datalist-input" + extraClasses,
                     list        : this.props.list,
                     placeholder : this.props.placeholder,
                     value       : this.state.filter,
@@ -98,7 +99,7 @@ var container = React.createClass({
     },
     getInitialState : function() {
         return {
-            filter   : this.props.initialFilter || '',
+            filter   : this.props.initialFilter || this.props.defaultValue || '',
             hide     : true,
             selected : false,
             support  : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)

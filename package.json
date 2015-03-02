@@ -24,8 +24,8 @@
     "url": "https://github.com/asbjornenge/react-datalist/issues"
   },
   "homepage": "https://github.com/asbjornenge/react-datalist",
-  "browser" : {
-    "jsdom" : false
+  "browser": {
+    "jsdom": false
   },
   "testling": {
     "harness": "mocha-bdd",
@@ -52,13 +52,13 @@
     "gulp-size": "^0.3.0",
     "gulp-uglify": "^0.2.1",
     "gulp-util": "^2.2.14",
-    "jsdom": "^0.10.5",
     "lodash": "^2.4.1",
     "mocha": "^1.18.2",
     "nanodom": "0.0.3",
     "node-jsx": "^0.10.0",
     "style-loader": "^0.6.3",
     "stylus-loader": "^0.2.0",
+    "testdom": "^1.0.0",
     "webpack": "^1.1.8"
   }
 }
