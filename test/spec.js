@@ -1,4 +1,4 @@
-var dom           = require('./dom')('<html><body></body></html>')
+var dom           = require('testdom')('<html><body></body></html>')
 var ReactDatalist = require('../react-datalist')
 var assert        = require('assert')
 var _             = require('lodash')
