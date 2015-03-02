@@ -90,6 +90,11 @@ For a full feature list check out the [spec](https://github.com/asbjornenge/reac
 
 ## Changelog
 
+### 1.3.0
+
+* Added support for *props.className* to set extra classes (by @blackbing #11)
+* Added support for *props.defaultValue* to set default value (by @blackbing #11)
+
 ### 1.2.0
 
 * Added *hideOptionsOnEsc* for the ability to opt out of hiding options when user hits esc
