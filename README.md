@@ -92,8 +92,8 @@ For a full feature list check out the [spec](https://github.com/asbjornenge/reac
 
 ### 1.3.0
 
-* Added support for *props.className* to set extra classes (by @blackbing #11)
-* Added support for *props.defaultValue* to set default value (by @blackbing #11)
+* Added support for *props.className* to set extra classes (by [@blackbing](https://github.com/blackbing) [#11](https://github.com/asbjornenge/react-datalist/pull/11))
+* Added support for *props.defaultValue* to set default value (by [@blackbing](https://github.com/blackbing) [#11](https://github.com/asbjornenge/react-datalist/pull/11))
 
 ### 1.2.0
 
