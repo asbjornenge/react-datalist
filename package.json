@@ -41,9 +41,8 @@
       "android-browser/latest"
     ]
   },
-  "dependencies": {
-    "envify": "^1.2.1",
-    "react": "^0.10.0"
+  "peerDependencies": {
+    "react": ">=0.10.0"
   },
   "devDependencies": {
     "css-loader": "^0.6.12",
