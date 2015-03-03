@@ -90,6 +90,10 @@ For a full feature list check out the [spec](https://github.com/asbjornenge/reac
 
 ## Changelog
 
+### 1.3.1
+
+* Moved react to peerDependencies with >= instaed of ^
+
 ### 1.3.0
 
 * Added support for *props.className* to set extra classes (by [@blackbing](https://github.com/blackbing) [#11](https://github.com/asbjornenge/react-datalist/pull/11))
