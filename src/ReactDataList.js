@@ -32,7 +32,7 @@ export default class ReactDataList extends React.Component {
                     id={this.props.list}
                     hide={this.state.hide}
                     filter={this.state.filter}
-                    select={this.selectFilteredOption}
+                    select={this.selectFilteredOption.bind(this)}
                     options={options}
                     selected={this.state.selected}
                 />
@@ -146,8 +146,9 @@ export default class ReactDataList extends React.Component {
 
         setTimeout(function() {
             if (this.refs.theInput == undefined) return // <- Tests are too fast!
-            var _input    = this.refs.theInput.getDOMNode()
-            var _datalist = this.refs.theDatalist.getDOMNode()
+            if (this.refs.theDatalist == undefined) return // <- Tests are too fast!
+            var _input    = React.findDOMNode(this.refs.theInput)
+            var _datalist = React.findDOMNode(this.refs.theDatalist)
             var pos       = this.findPos(_input)
 
             _datalist.style.position = 'absolute'

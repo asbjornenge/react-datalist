@@ -8,7 +8,7 @@ export default class DatalistOption extends React.Component {
             <option value={this.props.option} />
         )
         return (
-            <div className={classes} onClick={this.handleClick.bind(this)}>this.props.option</div>
+            <div className={classes} onClick={this.handleClick.bind(this)}>{this.props.option}</div>
         )
     }
     handleClick(e) {
