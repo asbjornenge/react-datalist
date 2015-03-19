@@ -20,7 +20,7 @@ export default class DataList extends React.Component {
             <datalist id={this.props.id} className={react-datalist}>{options}</datalist>
         )
         return (
-            <div id={this.props.id} className={react-datalist} style={containerStyle}>{options}</div>
+            <div id={this.props.id} className="react-datalist" style={containerStyle}>{options}</div>
         )
     }
 }

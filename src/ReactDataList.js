@@ -2,117 +2,63 @@ import React          from 'react'
 import DataList       from './components/DataList'
 import DataListOption from './components/DataListOption'
 
-/** OPTION **/
-
-/** DATALIST **/
-
-var ReactDatalist = React.createClass({
-    render : function() {
-        var options = this.props.options.map(function(option, index) {
-            return ReactDatalistOption({
-                option    : option, 
-                index     : index,
-                useNative : this.props.useNative,
-                selected  : (this.props.selected === index),
-                select    : this.props.select
-            })
-        }.bind(this))
-        var containerStyle = {}
-        if (!this.props.useNative) {
-            if (this.props.hide) containerStyle.display = 'none'
-            else if (this.props.options.length == 0) containerStyle.display = 'none'
-            else containerStyle.display = 'block'
-        }
-        return this.props.useNative ? (
-            React.DOM.datalist
-            ({
-                id        : this.props.id,
-                className : "react-datalist"
-            }, options)
-        ) : (
-            React.DOM.div({
-                id        : this.props.id,
-                className : "react-datalist",
-                style     : containerStyle
-            }, options)
-        )
-    }
-})
-
-/** STATEHOLDER **/
-
-var container = React.createClass({
-    render : function() {
-        var options = this.filterOptions(this.props.options, this.state.filter, this.useNative())
-        var extraClasses = this.props.className? ' ' + this.props.className: '';
-        return (
-            React.DOM.div
-            ({
-                className : "react-datalist-container"
-            },[
-                React.DOM.input
-                ({
-                    ref         : "theInput",
-                    className   : "react-datalist-input" + extraClasses,
-                    list        : this.props.list,
-                    placeholder : this.props.placeholder,
-                    value       : this.state.filter,
-                    onBlur      : this.handleInputBlur,
-                    onClick     : this.handleInputClick,
-                    onChange    : this.handleInputChange,
-                    onKeyDown   : this.handleInputKeyDown,
-                    onKeyUp     : this.handleInputKeyUp,
-                    onInput     : this.handleInputInput
-                }),
-                ReactDatalist
-                ({
-                    ref       : "theDatalist",
-                    id        : this.props.list,
-                    hide      : this.state.hide,
-                    filter    : this.state.filter,
-                    selected  : this.state.selected,
-                    select    : this.selectFilteredOption,
-                    useNative : this.useNative(),
-                    options   : options
-                })
-            ])
-        )
-    },
-    getInitialState : function() {
-        return {
-            filter   : this.props.initialFilter || this.props.defaultValue || '',
+export default class ReactDataList extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            filter   : props.initialFilter || props.defaultValue || '',
             hide     : true,
             selected : false,
             support  : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
         }
-    },
-    getDefaultProps : function() {
-        return {
-            blurTimeout       : 200,
-            hideOptionsOnBlur : true,
-            hideOptionsOnEsc  : true
-        }
-    },
-    handleInputBlur : function(event) {
+    }
+    render() {
+        var options = this.filterOptions(this.props.options, this.state.filter, this.useNative())
+        var extraClasses = this.props.className? ' ' + this.props.className: '';
+        return (
+            <div className="react-datalist-container">
+                <input ref="theInput"
+                        list={this.props.list}
+                        value={this.state.filter}
+                        className={"react-datalist-input"+extraClasses}
+                        placeholder={this.props.placeholder}
+                        onBlur={this.handleInputBlur.bind(this)}
+                        onKeyUp={this.handleInputKeyUp.bind(this)}
+                        onClick={this.handleInputClick.bind(this)}
+                        onChange={this.handleInputChange.bind(this)}
+                        onKeyDown={this.handleInputKeyDown.bind(this)}
+                />
+                <DataList ref="theDatalist"
+                    id={this.props.list}
+                    hide={this.state.hide}
+                    filter={this.state.filter}
+                    select={this.selectFilteredOption}
+                    options={options}
+                    selected={this.state.selected}
+                />
+            </div>
+        )
+    }
+    handleInputBlur(event) {
         if (this.props.hideOptionsOnBlur) {
             setTimeout(function() {
                 this.setState({ hide : true })
             }.bind(this),this.props.blurTimeout)
         }
         if (typeof this.props.onInputBlur === 'function') this.props.onInputBlur(event)
-    },
-    handleInputClick : function(event) {
+    }
+    handleInputClick(event) {
         this.setState({ hide : false })
-    },
-    handleInputChange : function(event) {
+    }
+    handleInputChange(event) {
         this.setState({ 
             filter   : event.target.value,
             selected : false,
             hide     : false
         })
         if (typeof this.props.onInputChange === 'function') this.props.onInputChange(event)
-    },
-    handleInputKeyDown : function(event) {
+    }
+    handleInputKeyDown(event) {
         switch(event.which) {
             case 40:
                 // DOWN Arrow
@@ -135,8 +81,8 @@ var container = React.createClass({
                 else { this.selectOption(event.target.value) }
                 break
         }
-    },
-    handleInputKeyUp : function(event) {
+    }
+    handleInputKeyUp(event) {
         if (!this.props.hideOptionsOnEsc) return
         switch(event.which) {
             case 27:
@@ -148,8 +94,8 @@ var container = React.createClass({
                 })
                 break
         }
-    },
-    filterOptions : function(options, filter, support) {
+    }
+    filterOptions(options, filter, support) {
         if (support)        return options
         if (!filter)        return options
         if (filter === '')  return options
@@ -157,11 +103,11 @@ var container = React.createClass({
         return options.filter(function(option) {
             return option.toLowerCase().indexOf(filter.toLowerCase()) >= 0
         })
-    },
-    selectFilteredOption : function(index) {
+    }
+    selectFilteredOption(index) {
         this.selectOption(this.filterOptions(this.props.options, this.state.filter, this.useNative())[index])
-    },
-    selectOption : function(value) {
+    }
+    selectOption(value) {
         var selected_option;
         this.props.options.forEach(function(option, index) { if(option.toLowerCase() === value.toLowerCase()) selected_option = option })
         if (typeof selected_option === 'undefined') return
@@ -171,13 +117,13 @@ var container = React.createClass({
             selected : false,
             hide     : true
         })
-    },
-    useNative : function() {
+    }
+    useNative() {
         var _native = this.state.support
         if (this.props.forcePoly) _native = false
         return _native
-    },
-    componentWillMount : function() {
+    }
+    componentWillMount() {
         if (typeof this.props.getController === 'function') {
             this.props.getController({
                 setFilter     : function(value,callback) { this.setState({filter : value}, callback) }.bind(this),
@@ -191,8 +137,8 @@ var container = React.createClass({
                 setState      : function(state,callback) { this.setState(state, callback) }.bind(this)
             })
         }
-    },
-    componentDidMount : function() {
+    }
+    componentDidMount() {
         if (this.useNative()) return
         if (this.props.autoPosition === false) return
 
@@ -210,8 +156,8 @@ var container = React.createClass({
             _datalist.style.width    = (_input.offsetWidth - 2) + 'px'            
         }.bind(this),50)
 
-    },
-    findPos : function(element) {
+    }
+    findPos(element) {
       if (element) {
         var parentPos = this.findPos(element.offsetParent);
         return [ parentPos[0] + element.offsetTop, parentPos[1] + element.offsetLeft]
@@ -219,6 +165,10 @@ var container = React.createClass({
         return [0,0];
       }
     }
-})
+}
+ReactDataList.defaultProps = {
+    blurTimeout       : 200,
+    hideOptionsOnBlur : true,
+    hideOptionsOnEsc  : true
+}
 
-module.exports = container

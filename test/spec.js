@@ -19,7 +19,8 @@ var blurTimeout   = 250
 /** HELPER FUNCTIONS **/
 
 function render(props, callback) {
-    return React.renderComponent(ReactDatalist(_({}).merge(defaultProps).merge(props).__wrapped__), document.body, function() {
+    let _props = Object.assign(props, defaultProps)
+    return React.render(<ReactDatalist {..._props} />, document.body, function() {
         if (typeof callback === 'function') setTimeout(callback)
     })
 }
