@@ -1,27 +1,8 @@
-var React = require('react')
+import React          from 'react'
+import DataList       from './components/DataList'
+import DataListOption from './components/DataListOption'
 
 /** OPTION **/
-
-var ReactDatalistOption = React.createClass({
-    render : function() {
-        var classes = this.props.selected ? ['react-datalist-option', 'react-datalist-option-selected'] : ['react-datalist-option']
-        return this.props.useNative ? (
-            React.DOM.option
-            ({ 
-                value : this.props.option 
-            })
-        ) : (
-            React.DOM.div
-            ({
-                className : classes.join(' '),
-                onClick   : this.handleClick
-            }, this.props.option)
-        )
-    },
-    handleClick : function(e) {
-        this.props.select(this.props.index)
-    }
-})
 
 /** DATALIST **/
 

@@ -1,10 +1,10 @@
 var dom           = require('testdom')('<html><body></body></html>')
-var ReactDatalist = require('../react-datalist')
 var assert        = require('assert')
 var _             = require('lodash')
 var React         = require('react')
 var nanodom       = require('nanodom')
 var ReactAddons   = require('react/addons')
+var ReactDatalist = require('../src/ReactDataList')
 
 var ReactTestUtils = React.addons.TestUtils
 
