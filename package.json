@@ -2,9 +2,11 @@
   "name": "react-datalist",
   "version": "1.3.1",
   "description": "A <datalist> polyfill for reactjs",
-  "main": "react-datalist.js",
+  "main": "./lib/ReactDataList",
   "scripts": {
-    "test": "mocha --compilers js:babel/register,styl:mocha-stylus-compiler -R nyan --check-leaks -w"
+    "test": "mocha --compilers js:babel/register,styl:mocha-stylus-compiler -R nyan --check-leaks -w",
+    "build": "babel src/ --out-dir lib",
+    "build-style": "./build-style.sh"
   },
   "repository": {
     "type": "git",
