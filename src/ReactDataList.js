@@ -38,6 +38,7 @@ export default class ReactDataList extends React.Component {
                     select={this.selectFilteredOption.bind(this)}
                     options={options}
                     selected={this.state.selected}
+                    useNative={this.useNative()}
                 />
             </div>
         )
