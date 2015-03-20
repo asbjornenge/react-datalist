@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --compilers js:babel/register,styl:mocha-stylus-compiler -R nyan --check-leaks -w",
     "build": "babel src/ --out-dir lib",
-    "build-style": "./build-style.sh"
+    "build-style": "./build-style.sh",
+    "build-demo": "browserify -t babelify demo/app.js > demo/bundle.js && stylus demo/app.styl -p > demo/bundle.css"
   },
   "repository": {
     "type": "git",

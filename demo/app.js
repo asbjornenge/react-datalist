@@ -1,33 +1,26 @@
 import React         from 'react'
-import ReactDataList from './datalist'
-import style         from './demo.styl'
+import ReactDataList from '../lib/ReactDataList'
 import fruit         from './fruit'
 
 var options  = ['apple','orange','pear','pineapple','melon']
 
 class NativeSwitch extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            checked : ''
+        }
+    }
     render() {
         return (
             <div className="onoffswitch" onClick={this.toggleNative.bind(this)}>
-                <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id="myonoffswitch" />
-                <label className="">
-                React.DOM.input({
-                    type      : 'checkbox',
-                    name      : 'onoffswitch',
-                    className : 'onoffswitch-checkbox',
-                    id        : 'myonoffswitch',
-                    checked   : this.state.checked
-                }),
-                React.DOM.label({ className : 'onoffswitch-label' }, [
-                    React.DOM.div({ className : 'onoffswitch-inner' }),
-                    React.DOM.div({ className : 'onoffswitch-switch' })
-                ])
-            ])
+                <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id="myonoffswitch" checked={this.state.checked} />
+                <label className="onoffswitch-label">
+                    <div className="onoffswitch-inner"></div>
+                    <div className="onoffswitch-switch"></div>
+                </label>
             </div>
         )
-    }
-    getInitialState() {
-        return { checked : '' }
     }
     toggleNative(event) {
         this.props.onChange(this.state.checked == '' ? true : false)
@@ -35,71 +28,66 @@ class NativeSwitch extends React.Component {
     }
 }
 
-var MessageBox = React.createClass({
-    render : function() {
+class MessageBox extends React.Component {
+    render() {
         var selectedOption, error, info_img;
         if (this.props.selectedOption != undefined) {
-            selectedOption = React.DOM.div
-            ({
-                className:'info-message'
-            }, 
-            [
-                React.DOM.span({className:'intro'}, 'Your favorite is...'), 
-                React.DOM.span({className:'choice'}, this.props.selectedOption),
-                React.DOM.img({src:'http://gifs.joelglovier.com/excited/thumbs-up.gif'}),
-                React.DOM.span({className:'advice'}, 'Good choice!')
-            ])
+            selectedOption = (
+                <div className="info-message">
+                    <span className="intro">Your favorite is...</span>
+                    <span className="choice">{this.props.selectedOption}</span>
+                    <img src="http://gifs.joelglovier.com/excited/thumbs-up.gif" />
+                    <span className="advice">Good choice!</span>
+                </div>
+            )
         }
-        if (this.props.error != undefined) error = React.DOM.div({className:'error-message'}, this.props.error)
+        if (this.props.error != undefined) error = <div className="error-message">{this.props.error}</div>
         return (
-            React.DOM.div({
-                className : 'message-box'
-            },[
-                selectedOption,
-                error
-            ])
+            <div className="message-box">
+                {selectedOption}
+                {error}
+            </div>
         )
     }
-})
+}
 
-var Demo = React.createClass({
-    render : function() {
+class Demo extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = { 
+            forcePoly : true,
+            support   : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
+        }
+    }
+    render() {
         if (!this.state.support && !this.state.forcePoly) errorMessage = 'Your browser does not support the native datalist :-( No worries, react-datalist got your back.'
         return (
-            React.DOM.div(null, [
-                NativeSwitch({onChange:this.handleNativeRequest}),
-                React.DOM.h1({ className : 'main-label' }, 'Find your favorite fruit!'),
-                ReactDatalist({
-                    options          : fruit,
-                    list             : 'fruit',
-                    forcePoly        : this.state.forcePoly,
-                    onOptionSelected : this.onOptionSelected
-                }),
-                MessageBox({
-                    selectedOption : this.state.selectedOption, 
-                    conflicted     : !this.state.support && !this.state.forcePoly
-                })
-            ])
+            <div>
+                <NativeSwitch onChange={this.handleNativeRequest.bind(this)} />
+                <h1 className="main-label">Find your favorite fruit!</h1>
+                <ReactDataList 
+                    list="fruit" 
+                    options={fruit} 
+                    useNative={!this.state.forcePoly} 
+                    onOptionSelected={this.onOptionSelected.bind(this)} />
+                <MessageBox 
+                    selectedOption={this.state.selectedOption} 
+                    conflicted={!this.state.support && !this.state.forcePoly} />
+            </div>
         )
-    },
-    getInitialState : function() {
-        return { 
-            forcePoly      : true,
-            support        : !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement)
-        }
-    },
-    handleNativeRequest : function(native) {
+    }
+    handleNativeRequest(native) {
         this.setState({ 
             forcePoly      : !native,
             filter         : '',
             selectedOption : undefined
         })
-    },
-    onOptionSelected : function(option) {
+    }
+    onOptionSelected(option) {
         this.setState({ 
             selectedOption : option
         })
     }
-})
+}
 
-React.renderComponent(Demo(), document.querySelectorAll('#container')[0])
+React.render(<Demo />, document.querySelectorAll('#container')[0])
