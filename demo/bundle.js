@@ -281,7 +281,8 @@ var ReactDataList = (function (_React$Component) {
                     filter: this.state.filter,
                     select: this.selectFilteredOption.bind(this),
                     options: options,
-                    selected: this.state.selected
+                    selected: this.state.selected,
+                    useNative: this.useNative()
                 }));
             }
         },
@@ -521,7 +522,9 @@ var DataList = (function (_React$Component) {
                 var _this = this;
 
                 var options = this.props.options.map(function (option, index) {
-                    return React.createElement(DataListOption, { option: option,
+                    return React.createElement(DataListOption, {
+                        key: option + index,
+                        option: option,
                         index: index,
                         useNative: _this.props.useNative,
                         selected: _this.props.selected == index,
@@ -532,7 +535,7 @@ var DataList = (function (_React$Component) {
                     if (this.props.hide) containerStyle.display = "none";else if (this.props.options.length == 0) containerStyle.display = "none";else containerStyle.display = "block";
                 }
                 if (this.props.useNative) {
-                    return React.createElement("datalist", { id: this.props.id, className: react - datalist }, options);
+                    return React.createElement("datalist", { id: this.props.id, className: "react-datalist" }, options);
                 }return React.createElement("div", { id: this.props.id, className: "react-datalist", style: containerStyle }, options);
             }
         }
