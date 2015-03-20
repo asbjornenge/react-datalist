@@ -4,11 +4,13 @@ import DataListOption from './DataListOption'
 export default class DataList extends React.Component {
     render() {
         let options = this.props.options.map((option, index) => {
-            return <DataListOption option={option} 
-                                   index={index} 
-                                   useNative={this.props.useNative} 
-                                   selected={this.props.selected == index} 
-                                   select={this.props.select} />
+            return <DataListOption 
+                        key={option+index}
+                        option={option} 
+                        index={index} 
+                        useNative={this.props.useNative} 
+                        selected={this.props.selected == index} 
+                        select={this.props.select} />
         })
         var containerStyle = {}
         if (!this.props.useNative) {
