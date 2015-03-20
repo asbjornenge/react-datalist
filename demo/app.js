@@ -1,18 +1,16 @@
-var React         = require('react')
-var ReactDatalist = require('../react-datalist')
-var fruit         = require('./fruit')
-
-/** STYLE **/
-
-require('../react-datalist.styl')
-require('./demo.styl')
+import React         from 'react'
+import ReactDataList from './datalist'
+import style         from './demo.styl'
+import fruit         from './fruit'
 
 var options  = ['apple','orange','pear','pineapple','melon']
 
-var NativeSwitch = React.createClass({
-    render : function() {
+class NativeSwitch extends React.Component {
+    render() {
         return (
-            React.DOM.div({ className : 'onoffswitch', onClick : this.toggleNative }, [
+            <div className="onoffswitch" onClick={this.toggleNative.bind(this)}>
+                <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id="myonoffswitch" />
+                <label className="">
                 React.DOM.input({
                     type      : 'checkbox',
                     name      : 'onoffswitch',
@@ -25,16 +23,17 @@ var NativeSwitch = React.createClass({
                     React.DOM.div({ className : 'onoffswitch-switch' })
                 ])
             ])
+            </div>
         )
-    },
-    getInitialState : function() {
+    }
+    getInitialState() {
         return { checked : '' }
-    },
-    toggleNative : function(event) {
+    }
+    toggleNative(event) {
         this.props.onChange(this.state.checked == '' ? true : false)
         this.setState({ checked : this.state.checked == '' ? 'checked' : '' })
     }
-})
+}
 
 var MessageBox = React.createClass({
     render : function() {
