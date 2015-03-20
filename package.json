@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --compilers js:babel/register,styl:mocha-stylus-compiler -R nyan --check-leaks -w",
     "build": "babel src/ --out-dir lib && ./build-style.sh",
-    "build-demo": "browserify -t babelify demo/app.js > demo/bundle.js && stylus demo/app.styl -p > demo/bundle.css"
+    "build-demo": "browserify -t babelify demo/app.js > demo/bundle.js && stylus demo/app.styl -p > demo/bundle.css",
+    "start-demo": "static demo"
   },
   "repository": {
     "type": "git",
@@ -43,7 +44,7 @@
     ]
   },
   "peerDependencies": {
-    "react": ">=0.10.0"
+    "react": ">=0.13.0"
   },
   "devDependencies": {
     "babel": "^4.7.16",
