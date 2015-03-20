@@ -8,6 +8,8 @@ Feedback in the form of [issues](https://github.com/asbjornenge/react-datalist/i
 
 Check out the [**DEMO**](http://www.asbjornenge.com/react-datalist/)
 
+**PS!** For use with react@0.12 or earlier, user react-datalist@1.3.1. 2.0.0 support react@0.13.0 and newer.
+
 ## Install
 
 	npm install react-datalist
@@ -18,21 +20,22 @@ Check out the [**DEMO**](http://www.asbjornenge.com/react-datalist/)
 	var ReactDatalist = require('react-datalist')
 
 	var options = ['apple','orange','pear','pineapple','melon']
-	React.renderComponent(ReactDatalist({list:'fruit', options:options}), document.body)
+	React.render(<ReactDatalist list="fruit" options={options} />, document.body)
 
 ## Props
 
-	list            * - <datalist id="list"> and <input list="list">
-	options         * - the available options
-	placeholder       - a placeholder for the input field
-	forcePoly         - always use the polyfill                   (default false)
-	blurTimeout       - timeout after blur before hinding opts    (default 200ms)
-	autoPosition      - automatically position the options list   (default true)
-	initialFilter     - set the initial input value               (default '')
-	hideOptionsOnEsc  - hide options on esc                       (default true)
-	hideOptionsOnBlur - hide options on input blur                (default true)
-	onOptionSelected  - callback triggered when option is considered selected
-	getController     - pass a function to collect a controller object (see below)
+	list             * - <datalist id="list"> and <input list="list">
+	options          * - the available options
+	placeholder        - a placeholder for the input field
+	forcePoly          - always use the polyfill                     (default false)
+	blurTimeout        - timeout after blur before hinding opts      (default 200ms)
+	autoPosition       - automatically position the options list     (default true)
+	initialFilter      - set the initial input value                 (default '')
+	hideOptionsOnEsc   - hide options on esc                         (default true)
+	hideOptionsOnBlur  - hide options on input blur                  (default true)
+    includeLayoutStyle - include internal layout styling (style tag) (default true)
+	onOptionSelected   - callback triggered when option is considered selected
+	getController      - pass a function to collect a controller object (see below)
 
 	* = required
 
@@ -89,6 +92,10 @@ The module itself does not make us of **JSX** as not to impose restrictions on t
 For a full feature list check out the [spec](https://github.com/asbjornenge/react-datalist/blob/master/test/spec.js).
 
 ## Changelog
+
+### 2.0.0
+
+* Support for React v0.13 :tada: :rocket:
 
 ### 1.3.1
 

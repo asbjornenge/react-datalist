@@ -1,10 +1,10 @@
 var dom           = require('testdom')('<html><body></body></html>')
-var ReactDatalist = require('../react-datalist')
 var assert        = require('assert')
 var _             = require('lodash')
 var React         = require('react')
 var nanodom       = require('nanodom')
 var ReactAddons   = require('react/addons')
+var ReactDatalist = require('../src/ReactDataList')
 
 var ReactTestUtils = React.addons.TestUtils
 
@@ -19,7 +19,8 @@ var blurTimeout   = 250
 /** HELPER FUNCTIONS **/
 
 function render(props, callback) {
-    return React.renderComponent(ReactDatalist(_({}).merge(defaultProps).merge(props).__wrapped__), document.body, function() {
+    let _props = Object.assign(props, defaultProps)
+    return React.render(<ReactDatalist {..._props} />, document.body, function() {
         if (typeof callback === 'function') setTimeout(callback)
     })
 }
@@ -336,6 +337,22 @@ describe('DATALIST', function() {
             })
         })
 
+    })
+
+    it('includes layout style by default', function(done) {
+        render({}, function() {
+            var style = nanodom('style')
+            assert(style.length == 1)
+            done()
+        })
+    })
+
+    it('does not include layout style if includeLayoutStyle=false is passed as prop', function(done) {
+        render({ includeLayoutStyle : false }, function() {
+            var style = nanodom('style')
+            assert(style.length == 0)
+            done()
+        })
     })
 
 })
