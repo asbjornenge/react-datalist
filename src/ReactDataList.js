@@ -1,6 +1,7 @@
 import React          from 'react'
 import DataList       from './components/DataList'
 import DataListOption from './components/DataListOption'
+import layout         from './styles/react-datalist.styl'
 
 export default class ReactDataList extends React.Component {
     constructor(props) {
@@ -13,10 +14,12 @@ export default class ReactDataList extends React.Component {
         }
     }
     render() {
-        var options = this.filterOptions(this.props.options, this.state.filter, this.useNative())
+        var options      = this.filterOptions(this.props.options, this.state.filter, this.useNative())
         var extraClasses = this.props.className? ' ' + this.props.className: '';
+        var layoutstyle  = (this.props.includeLayoutStyle) ? <style>{layout}</style> : null
         return (
             <div className="react-datalist-container">
+                {layoutstyle}
                 <input ref="theInput"
                         list={this.props.list}
                         value={this.state.filter}
@@ -168,8 +171,9 @@ export default class ReactDataList extends React.Component {
     }
 }
 ReactDataList.defaultProps = {
-    blurTimeout       : 200,
-    hideOptionsOnBlur : true,
-    hideOptionsOnEsc  : true
+    blurTimeout        : 200,
+    includeLayoutStyle : true, 
+    hideOptionsOnBlur  : true,
+    hideOptionsOnEsc   : true
 }
 

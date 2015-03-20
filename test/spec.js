@@ -339,4 +339,20 @@ describe('DATALIST', function() {
 
     })
 
+    it('includes layout style by default', function(done) {
+        render({}, function() {
+            var style = nanodom('style')
+            assert(style.length == 1)
+            done()
+        })
+    })
+
+    it('does not include layout style if includeLayoutStyle=false is passed as prop', function(done) {
+        render({ includeLayoutStyle : false }, function() {
+            var style = nanodom('style')
+            assert(style.length == 0)
+            done()
+        })
+    })
+
 })
