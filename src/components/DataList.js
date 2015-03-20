@@ -19,7 +19,7 @@ export default class DataList extends React.Component {
             else containerStyle.display = 'block'
         }
         if (this.props.useNative) return (
-            <datalist id={this.props.id} className={react-datalist}>{options}</datalist>
+            <datalist id={this.props.id} className={"react-datalist"}>{options}</datalist>
         )
         return (
             <div id={this.props.id} className="react-datalist" style={containerStyle}>{options}</div>
