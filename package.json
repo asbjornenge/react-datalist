@@ -4,7 +4,7 @@
   "description": "A <datalist> polyfill for reactjs",
   "main": "react-datalist.js",
   "scripts": {
-    "test": "mocha --compilers js:babel/register -R nyan --check-leaks -w"
+    "test": "mocha --compilers js:babel/register,styl:mocha-stylus-compiler -R nyan --check-leaks -w"
   },
   "repository": {
     "type": "git",
@@ -45,19 +45,10 @@
   },
   "devDependencies": {
     "babel": "^4.7.16",
-    "css-loader": "^0.6.12",
-    "gulp": "^3.6.2",
-    "gulp-rename": "^1.2.0",
-    "gulp-size": "^0.3.0",
-    "gulp-uglify": "^0.2.1",
-    "gulp-util": "^2.2.14",
     "lodash": "^2.4.1",
     "mocha": "^1.18.2",
+    "mocha-stylus-compiler": "^1.0.0",
     "nanodom": "0.0.3",
-    "node-jsx": "^0.10.0",
-    "style-loader": "^0.6.3",
-    "stylus-loader": "^0.2.0",
-    "testdom": "^1.0.1",
-    "webpack": "^1.1.8"
+    "testdom": "^1.0.1"
   }
 }
