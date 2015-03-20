@@ -142,7 +142,7 @@ var Demo = (function (_React$Component3) {
                     React.createElement(ReactDataList, {
                         list: "fruit",
                         options: fruit,
-                        useNative: !this.state.forcePoly,
+                        forcePoly: this.state.forcePoly,
                         onOptionSelected: this.onOptionSelected.bind(this) }),
                     React.createElement(MessageBox, {
                         selectedOption: this.state.selectedOption,

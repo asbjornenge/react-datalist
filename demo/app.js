@@ -68,7 +68,7 @@ class Demo extends React.Component {
                 <ReactDataList 
                     list="fruit" 
                     options={fruit} 
-                    useNative={!this.state.forcePoly} 
+                    forcePoly={this.state.forcePoly} 
                     onOptionSelected={this.onOptionSelected.bind(this)} />
                 <MessageBox 
                     selectedOption={this.state.selectedOption} 
