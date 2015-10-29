@@ -5,7 +5,7 @@
   "main": "./lib/ReactDataList",
   "scripts": {
     "test": "mocha --compilers js:babel/register,styl:mocha-stylus-compiler -R nyan --check-leaks -w",
-    "build": "babel src/ --out-dir lib && ./build-style.sh",
+    "build": "babel --plugins babel-plugin-stylus src/ --out-dir lib",
     "build-demo": "browserify -t babelify demo/app.js > demo/bundle.js && stylus demo/app.styl -p > demo/bundle.css",
     "start-demo": "static demo"
   },
@@ -44,11 +44,13 @@
     ]
   },
   "peerDependencies": {
-    "react": ">=0.13.0"
+    "react": "^0.14.1",
+    "react-dom": "^0.14.1"
   },
   "devDependencies": {
-    "babel": "^4.7.16",
-    "babelify": "^5.0.4",
+    "babel": "^5.8.29",
+    "babel-plugin-stylus": "^1.0.0",
+    "babelify": "^6.4.0",
     "lodash": "^2.4.1",
     "mocha": "^1.18.2",
     "mocha-stylus-compiler": "^1.0.0",

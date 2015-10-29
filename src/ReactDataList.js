@@ -1,4 +1,5 @@
 import React          from 'react'
+import ReactDOM       from 'react-dom'
 import DataList       from './components/DataList'
 import DataListOption from './components/DataListOption'
 import layout         from './styles/react-datalist.styl'
@@ -151,8 +152,8 @@ export default class ReactDataList extends React.Component {
         setTimeout(function() {
             if (this.refs.theInput == undefined) return // <- Tests are too fast!
             if (this.refs.theDatalist == undefined) return // <- Tests are too fast!
-            var _input    = React.findDOMNode(this.refs.theInput)
-            var _datalist = React.findDOMNode(this.refs.theDatalist)
+            var _input    = ReactDOM.findDOMNode(this.refs.theInput)
+            var _datalist = ReactDOM.findDOMNode(this.refs.theDatalist)
             var pos       = this.findPos(_input)
 
             _datalist.style.position = 'absolute'
