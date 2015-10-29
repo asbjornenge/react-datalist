@@ -93,6 +93,11 @@ For a full feature list check out the [spec](https://github.com/asbjornenge/reac
 
 ## Changelog
 
+### 3.0.0
+
+* Support for React v0.14 :rocket:
+* Updated testdom which also updates jsdom wich in turn requires node 4+ :stuck_out_tongue_closed_eyes: 
+
 ### 2.0.0
 
 * Support for React v0.13 :tada: :rocket:
