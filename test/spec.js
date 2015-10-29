@@ -2,11 +2,10 @@ var dom           = require('testdom')('<html><body></body></html>')
 var assert        = require('assert')
 var _             = require('lodash')
 var React         = require('react')
+var ReactDOM      = require('react-dom')
 var nanodom       = require('nanodom')
-var ReactAddons   = require('react/addons')
 var ReactDatalist = require('../src/ReactDataList')
-
-var ReactTestUtils = React.addons.TestUtils
+var ReactTestUtils = require('react-addons-test-utils') 
 
 /** VARIABLES **/
 
@@ -20,7 +19,7 @@ var blurTimeout   = 250
 
 function render(props, callback) {
     let _props = Object.assign(props, defaultProps)
-    return React.render(<ReactDatalist {..._props} />, document.body, function() {
+    return ReactDOM.render(<ReactDatalist {..._props} />, document.body, function() {
         if (typeof callback === 'function') setTimeout(callback)
     })
 }

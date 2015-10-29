@@ -55,7 +55,8 @@
     "mocha": "^1.18.2",
     "mocha-stylus-compiler": "^1.0.0",
     "nanodom": "0.0.3",
+    "react-addons-test-utils": "^0.14.1",
     "stylusify": "^1.0.0",
-    "testdom": "^1.0.1"
+    "testdom": "^2.0.0"
   }
 }
