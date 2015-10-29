@@ -1,4 +1,5 @@
 import React         from 'react'
+import ReactDOM      from 'react-dom'
 import ReactDataList from '../lib/ReactDataList'
 import fruit         from './fruit'
 
@@ -36,7 +37,7 @@ class MessageBox extends React.Component {
                 <div className="info-message">
                     <span className="intro">Your favorite is...</span>
                     <span className="choice">{this.props.selectedOption}</span>
-                    <img src="http://gifs.joelglovier.com/excited/thumbs-up.gif" />
+                    <img src="http://gifs.joelglovier.com/thumbs-up/thumbs-up.gif" />
                     <span className="advice">Good choice!</span>
                 </div>
             )
@@ -90,4 +91,4 @@ class Demo extends React.Component {
     }
 }
 
-React.render(<Demo />, document.querySelectorAll('#container')[0])
+ReactDOM.render(<Demo />, document.querySelectorAll('#container')[0])
