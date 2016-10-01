@@ -1,0 +1,19 @@
+{
+  "name": "react-datalist-demo-app",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "0.6.1"
+  },
+  "dependencies": {
+    "react": "^15.3.2",
+    "react-datalist": "^3.0.0",
+    "react-dom": "^15.3.2",
+    "stylusify": "^2.1.0"
+  },
+  "scripts": {
+    "compile-stylus": "stylus src/app.styl -p > public/bundle.css",
+    "start": "npm run compile-stylus && react-scripts start",
+    "build": "npm run compile-stylus && react-scripts build"
+  }
+}
