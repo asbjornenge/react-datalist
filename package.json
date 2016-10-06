@@ -5,9 +5,7 @@
   "main": "./lib/ReactDataList",
   "scripts": {
     "test": "mocha --compilers js:babel/register,styl:mocha-stylus-compiler -R nyan --check-leaks -w",
-    "build": "babel --plugins babel-plugin-stylus src/ --out-dir lib",
-    "build-demo": "browserify -t babelify demo/app.js > demo/bundle.js && stylus demo/app.styl -p > demo/bundle.css",
-    "start-demo": "static demo"
+    "build": "babel --plugins babel-plugin-stylus src/ --out-dir lib"
   },
   "repository": {
     "type": "git",
