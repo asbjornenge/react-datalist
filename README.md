@@ -93,6 +93,10 @@ For a full feature list check out the [spec](https://github.com/asbjornenge/reac
 
 ## Changelog
 
+### 4.0.0
+
+* Bumped React peerDependency major version to ^15.0.0 :tada: thanks to @dcousens
+
 ### 3.0.0
 
 * Support for React v0.14 :rocket:

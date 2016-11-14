@@ -1,4 +1,4 @@
-var dom           = require('testdom')('<html><body></body></html>');
+var dom           = require('testdom')('<html><body><div id="app"></div></body></html>');
 var assert        = require('assert');
 var _             = require('lodash');
 var React         = require('react');
@@ -14,12 +14,13 @@ var getController = function(controller) { ReactDatalistController = controller 
 var options       = ['apple','orange','pear','pineapple','melon']
 var defaultProps  = {options:options, list:'fruit', forcePoly:true, getController:getController}
 var blurTimeout   = 250
+var mountNode     = document.querySelector("#app")
 
 /** HELPER FUNCTIONS **/
 
 function render(props, callback) {
     let _props = Object.assign(props, defaultProps)
-    return ReactDOM.render(<ReactDatalist {..._props} />, document.body, function() {
+    return ReactDOM.render(<ReactDatalist {..._props} />, mountNode, function() {
         if (typeof callback === 'function') setTimeout(callback)
     })
 }
@@ -39,8 +40,8 @@ function clickOption(datalist, index) {
 describe('DATALIST', function() {
 
     afterEach(function(done) {
-        React.unmountComponentAtNode(document.body)
-        document.body.innerHTML = ""
+        ReactDOM.unmountComponentAtNode(mountNode)
+        mountNode.innerHTML = ""
         setTimeout(done)
     })
 
